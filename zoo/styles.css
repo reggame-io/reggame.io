@@ -1,0 +1,173 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #5eaaff;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+    padding: 20px;
+}
+
+.graphical-representation {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.automaton-type {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.transition-table {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.language-selection {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.alphabet-set,
+.test-cases {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.properties-table-container,
+.bar-graph,
+.export-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.bar-graph {
+    /* Optional grid or flex positioning for aligning bar graph with other elements */
+}
+
+.export-section {
+    grid-column: span 2;
+}
+
+.export-tabs {
+    display: flex;
+    gap: 10px;
+}
+
+.export-tab-content {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+
+.state {
+    border: 1.5px solid currentColor;
+    padding: 3px 6px 3px 6px;
+    white-space: nowrap;
+    border-radius: 100px;
+}
+
+.acceptState {
+    border: 5px double currentColor;
+    padding: 3px 6px 3px 6px;
+    white-space: nowrap;
+    border-radius: 100px;
+}
+
+
+.transition-table {
+    border-collapse: collapse;
+}
+
+.transition-table tr:first-child {
+    background-color: rgb(230, 243, 255);
+}
+
+.transition-table td {
+    border: 1px solid #707070;
+    padding: 8px;
+}
+
+.transition-table tr td:first-child {
+    text-align: center;
+    background-color: rgb(230, 243, 255);
+}
+
+.properties-table tr :last-child {
+    text-align: right;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-unimplemented:hover::after {
+    content: "Not yet implemented";
+}
+
+.tooltip-only-ascii:hover::after {
+    content: "Available only for ASCII characters";
+}
+
+.tooltip:hover::after {
+    position: absolute;
+    background-color: black;
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 14px;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.acceptance-table td {
+    border: 1px solid #707070;
+    padding: 8px;
+}
+
+.acceptance-table {
+    border-collapse: collapse;
+}
+
+.acceptance-table thead tr:first-child {
+    background-color: rgb(230, 243, 255);
+}
+
+.acceptance-table tr td:first-child {
+    text-align: center;
+    background-color: rgb(230, 243, 255);
+}
+
+.acceptance-table tr :not(:first-child) {
+    text-align: right;
+}

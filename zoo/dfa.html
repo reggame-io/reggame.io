@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finite Automaton Information</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <header>
+        <img src="../reggame-io-logo.png" height="90">
+        <div class="language-selection">
+            <!-- Language selection dropdown -->
+            <select>
+                <option value="en-US">English (United States)</option>
+                <option value="en-UK">English (United Kingdom)</option>
+            </select>
+        </div>
+    </header>
+
+    <main>
+        <div class="graphical-representation">
+            <h2>Graphical Representation</h2>
+            <!-- SVG or canvas element for visual representation of automaton -->
+            <img src="../graphviz.svg" alt="Automaton Diagram">
+            <!--
+digraph finite_state_machine {
+	node [shape = doublecircle]; c;
+	node [shape = circle];
+	"" [shape=none];
+	a -> b [label = "0"];
+	a -> a [label = "1"];
+	b -> b [label = "0"];
+	b -> c [label = "1"];
+	c -> b [label = "0"];
+	c -> a [label = "1"];
+    "" -> a
+}
+            -->
+        </div>
+
+        <div class="transition-table">
+            <h2>Transition Table</h2>
+            <!-- Table for displaying transition function -->
+            <table class="transition-table">
+                <tr>
+                    <td>↓ State (Q) ＼ Alphabet (Σ) →</td>
+                    <td>0</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td><span class="state">a</span></td>
+                    <td>b</td>
+                    <td>a</td>
+                </tr>
+                <tr>
+                    <td><span class="state">b</span></td>
+                    <td>b</td>
+                    <td>c</td>
+                </tr>
+                <tr>
+                    <td><span class="acceptState">c</span></td>
+                    <td>b</td>
+                    <td>a</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Section: Automaton Type -->
+        <div class="automaton-type">
+            <h2>Automaton Properties:</h2>
+
+            <table>
+                <tr>
+                    <th>Property</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Type</td>
+                    <td>DFA (<a
+                            href="https://en.wikipedia.org/w/index.php?title=Deterministic_finite_automaton&oldid=1234881968#Complete_and_incomplete">complete</a>)
+                    </td>
+                </tr>
+                <tr>
+                    <td>Number of states</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Alphabet set</td>
+                    <td>{0, 1}</td>
+                </tr>
+            </table>
+
+        </div>
+
+        <!-- Section: Positive and Negative Test Cases -->
+        <div class="test-cases">
+            <h2>Test Cases</h2>
+            <button>JSON</button>
+            <button disabled class="tooltip tooltip-unimplemented">Plain text</button>
+            <div>
+                <h3>Positive Test Cases</h3>
+                <textarea rows="4" cols="30">["01", "101", "001", "111101"]</textarea>
+            </div>
+            <div>
+                <h3>Negative Test Cases</h3>
+                <!-- Text area for negative test cases -->
+                <textarea rows="4" cols="30">["100", "0010", "1110", "01010111"]</textarea>
+            </div>
+        </div>
+
+        <!-- Section: Formal Language Properties Table -->
+        <div class="properties-table-container">
+            <h2>Language Properties</h2>
+            <table class="properties-table">
+                <tr>
+                    <th>Property</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Minimal Accepted String Length</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Maximal Accepted String Length</td>
+                    <td>∞</td>
+                </tr>
+                <tr>
+                    <td>Pumping Length</td>
+                    <td>3</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Section: Bar Graph for String Length Acceptance -->
+        <div class="bar-graph">
+            <h2>Acceptance Rate by String Length</h2>
+
+            <table class="acceptance-table">
+                <thead style="font-weight: bold;">
+                    <tr>
+                        <td>Length</td>
+                        <td>Accepted</td>
+                        <td>Rejected</td>
+                        <td>Acceptance Rate</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>0%</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>2</td>
+                        <td>0%</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td>25%</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>2</td>
+                        <td>6</td>
+                        <td>25%</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>4</td>
+                        <td>12</td>
+                        <td>25%</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>8</td>
+                        <td>24</td>
+                        <td>25%</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Placeholder for bar graph -->
+            <!-- You can use a canvas element or a library like Chart.js -->
+        </div>
+
+        <!-- Section: Export Code to Different Languages -->
+        <div class="export-section">
+            <h2>Export</h2>
+            <div class="export-tabs">
+                <!-- Tabs for different languages -->
+                <button>Python</button>
+                <button disabled class="tooltip tooltip-unimplemented">JavaScript</button>
+                <button disabled class="tooltip tooltip-unimplemented">TypeScript</button>
+                <button disabled class="tooltip tooltip-unimplemented">Rust</button>
+                <button disabled class="tooltip tooltip-unimplemented">Java</button>
+                <button disabled class="tooltip tooltip-unimplemented">C++</button>
+                <button disabled class="tooltip tooltip-only-ascii">C</button>
+                <!-- Add more languages as needed -->
+            </div>
+            <div class="export-tab-content">
+                <!-- Code export box with syntax highlighting -->
+                <pre>
+def run_automaton(input_str):
+    state = 'a' # Initial state
+    for char in input_str:
+        if state == 'a':
+            if char == '0':
+                state = 'b'
+            elif char == '1':
+                state = 'a'
+        elif state == 'b':
+            if char == '0':
+                state = 'b'
+            elif char == '1':
+                state = 'c'
+        elif state == 'c':
+            if char == '0':
+                state = 'b'
+            elif char == '1':
+                state = 'a'
+    return state in ['c'] # Accept state
+            </pre>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>
