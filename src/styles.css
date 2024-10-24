@@ -66,10 +66,6 @@ main {
     margin-top: 20px;
 }
 
-.bar-graph {
-    /* Optional grid or flex positioning for aligning bar graph with other elements */
-}
-
 .export-section {
     grid-column: span 2;
 }
