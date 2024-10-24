@@ -3,7 +3,12 @@ import reggameLogo from './assets/reggame-io-logo.png'
 import graphviz from './assets/graphviz.svg'
 import './styles.css';
 
-const DFAComponent: React.FC = () => {
+interface DfaProps {
+    table_in_string_format: string;
+}
+
+
+const DFAComponent: React.FC<DfaProps> = ({ table_in_string_format }) => {
     return (
         <div>
             <header>
@@ -17,7 +22,7 @@ const DFAComponent: React.FC = () => {
             </header>
 
             <main>
-                <div className="graphical-representation">
+                <div className="graphical-representation unimplemented">
                     <h2>Graphical Representation</h2>
                     <img src={graphviz} alt="Automaton Diagram" />
                     {/* 
@@ -42,26 +47,32 @@ const DFAComponent: React.FC = () => {
                         <thead>
                             <tr>
                                 <td>↓ State (Q) ＼ Alphabet (Σ) →</td>
-                                <td>0</td>
-                                <td>1</td>
+                                {
+                                    Array.from({
+                                        length: table_in_string_format
+                                            .split('_')[0].length
+                                    }, (_, i) => <td>{i}</td>)
+                                }
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><span className="state">a</span></td>
-                                <td>b</td>
-                                <td>a</td>
-                            </tr>
-                            <tr>
-                                <td><span className="state">b</span></td>
-                                <td>b</td>
-                                <td>c</td>
-                            </tr>
-                            <tr>
-                                <td><span className="acceptState">c</span></td>
-                                <td>b</td>
-                                <td>a</td>
-                            </tr>
+                            {
+                                table_in_string_format
+                                    .split('_')
+                                    .map((row, i) => (
+                                        <tr>
+                                            <td><span className={
+                                                table_in_string_format.includes(String.fromCharCode(65 + i)) ? 'acceptState' : 'state'
+                                            }>{
+                                                    String.fromCharCode(97 + i)
+                                                }</span></td> {
+                                                row.split('').map(cell => (
+                                                    <td>{cell.toLowerCase()}</td>
+                                                ))
+                                            }
+                                        </tr>
+                                    ))
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -88,17 +99,28 @@ const DFAComponent: React.FC = () => {
                             </tr>
                             <tr>
                                 <td>Number of states</td>
-                                <td>3</td>
+                                <td>
+                                    {
+                                        table_in_string_format
+                                            .split('_').length
+                                    }
+                                </td>
                             </tr>
                             <tr>
                                 <td>Alphabet set</td>
-                                <td>{'{0, 1}'}</td>
+                                <td>{
+                                    '{' + table_in_string_format
+                                        .split('_')[0]
+                                        .split('')
+                                        .map((_, i) => String.fromCharCode(48 + i))
+                                        .join(', ') + '}'
+                                }</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <div className="test-cases">
+                <div className="test-cases unimplemented">
                     <h2>Test Cases</h2>
                     <div className="test-case-tabs">
                         <button>JSON</button>
@@ -120,7 +142,7 @@ const DFAComponent: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="properties-table-container">
+                <div className="properties-table-container unimplemented">
                     <h2>Language Properties</h2>
                     <table className="properties-table">
                         <thead>
@@ -146,7 +168,7 @@ const DFAComponent: React.FC = () => {
                     </table>
                 </div>
 
-                <div className="bar-graph">
+                <div className="bar-graph unimplemented">
                     <h2>Acceptance Rate by String Length</h2>
                     <table className="acceptance-table">
                         <thead style={{ fontWeight: 'bold' }}>
@@ -221,25 +243,7 @@ const DFAComponent: React.FC = () => {
                     </div>
                     <div className="export-tab-content">
                         <pre>
-                            {`def run_automaton(input_str):
-        state = 'a' # Initial state
-        for char in input_str:
-                if state == 'a':
-                        if char == '0':
-                                state = 'b'
-                        elif char == '1':
-                                state = 'a'
-                elif state == 'b':
-                        if char == '0':
-                                state = 'b'
-                        elif char == '1':
-                                state = 'c'
-                elif state == 'c':
-                        if char == '0':
-                                state = 'b'
-                        elif char == '1':
-                                state = 'a'
-        return state in ['c'] # Accept state`}
+                            {genPython(table_in_string_format)}
                         </pre>
                     </div>
                 </div>
@@ -247,5 +251,22 @@ const DFAComponent: React.FC = () => {
         </div>
     );
 };
+
+function genPython(table_in_string_format: string): string {
+    const state_count = table_in_string_format.split('_').length;
+    const accept_states = [...table_in_string_format].filter((c) => c !== c.toLowerCase()).map((c) => c.toLowerCase());
+    const alphabets = table_in_string_format.split('_')[0].split('').map((_, i) => String.fromCharCode(48 + i));
+    let code = `def run_automaton(input_str):\n`;
+    code += `    state = 'a' # Initial state\n`;
+    for (let i = 0; i < state_count; i++) {
+        code += `    if state == '${String.fromCharCode(97 + i)}':\n`;
+        for (let j = 0; j < alphabets.length; j++) {
+            code += `        if char == '${alphabets[j]}':\n`;
+            code += `            state = '${table_in_string_format.split('_')[i].split('')[j].toLowerCase()}'\n`;
+        }
+    }
+    code += `    return state in ['${accept_states.join("', '")}'] # Accept state\n`;
+    return code;
+}
 
 export default DFAComponent;

@@ -130,6 +130,27 @@ main {
     display: inline-block;
 }
 
+
+.unimplemented {
+    background-color: #ffb4b4 !important;
+}
+
+.unimplemented:hover {
+    background-color: #ff8f8f !important;
+}
+
+.unimplemented:hover::after {
+    content: "TODO";
+    position: absolute;
+    background-color: black;
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+
 .tooltip-unimplemented:hover::after {
     content: "Not yet implemented";
 }
