@@ -70,6 +70,11 @@ main {
     grid-column: span 2;
 }
 
+.test-case-tabs {
+    display: flex;
+    gap: 10px;
+}
+
 .export-tabs {
     display: flex;
     gap: 10px;
@@ -102,13 +107,13 @@ main {
     border-collapse: collapse;
 }
 
-.transition-table tr:first-child {
+.transition-table thead {
     background-color: rgb(230, 243, 255);
 }
 
 .transition-table td {
     border: 1px solid #707070;
-    padding: 8px;
+    padding: 10px 8px;
 }
 
 .transition-table tr td:first-child {

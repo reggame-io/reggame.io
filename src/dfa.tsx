@@ -100,10 +100,12 @@ const DFAComponent: React.FC = () => {
 
                 <div className="test-cases">
                     <h2>Test Cases</h2>
-                    <button>JSON</button>
-                    <button disabled className="tooltip tooltip-unimplemented">
-                        Plain text
-                    </button>
+                    <div className="test-case-tabs">
+                        <button>JSON</button>
+                        <button disabled className="tooltip tooltip-unimplemented">
+                            Plain text
+                        </button>
+                    </div>
                     <div>
                         <h3>Positive Test Cases</h3>
                         <textarea rows={4} cols={30}>
