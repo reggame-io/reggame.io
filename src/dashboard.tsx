@@ -121,8 +121,16 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa, lang }) => {
                                 )
                             </td></tr>
                             <tr><td>{t.numberOfStates}</td><td>{dfa.states.length} </td></tr>
-                            <tr><td>{t.alphabetSet}</td>
-                                <td>{'{' + dfa.alphabets.join(', ') + '}'}</td></tr>
+                            <tr><td>{t.alphabetSet}</td><td>
+                                {'{'}
+                                {
+                                    dfa.alphabets
+                                        .map(alphabet => <code className='alphabet' key={alphabet}>{alphabet}</code>)
+                                        .reduce((prev, curr) => <>
+                                            {prev}<span>{', '}</span>{curr}
+                                        </>)
+                                }
+                                {'}'}</td></tr>
                         </tbody>
                     </table>
                 </div>

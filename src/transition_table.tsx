@@ -24,7 +24,7 @@ const TransitionTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }>
             <tr>
                 <td>↓ {translations[lang].state} (Q) ＼ {translations[lang].alphabet} (Σ) →</td>
                 {
-                    dfa.alphabets.map((alphabet) => <td key={alphabet}>{alphabet}</td>)
+                    dfa.alphabets.map((alphabet) => <td key={alphabet}><code className="alphabet">{alphabet}</code></td>)
                 }
             </tr>
         </thead>

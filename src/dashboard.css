@@ -164,3 +164,11 @@ main {
 .acceptance-percentage-table tr :not(:first-child) {
     text-align: right;
 }
+
+code.alphabet {
+    padding: 0.1em 0.3em;
+    border-radius: 3px;
+    font-size: 120%;
+    background-color: #f2f2f7;
+    border: 1px solid #d1d1e6;
+}
