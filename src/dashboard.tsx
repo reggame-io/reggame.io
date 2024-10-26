@@ -6,6 +6,7 @@ import { DFA } from './types_automaton';
 import TransitionTableDfa from './transition_table';
 import AcceptancePercentageTableDfa from './acceptance_percentage_table';
 import RegularLanguagePropertiesTableDfa from './regular_language_properties';
+import ExportAsCodeDfa from './export-as-code';
 
 interface DashboardDfaProps {
     dfa: DFA;
@@ -194,31 +195,9 @@ ${[
 
                 <div className="panel">
                     <h2>{t.export}</h2>
-                    <div className="export-tabs">
-                        <button>Python</button>
-                        <button disabled className="tooltip tooltip-unimplemented">
-                            JavaScript
-                        </button>
-                        <button disabled className="tooltip tooltip-unimplemented">
-                            TypeScript
-                        </button>
-                        <button disabled className="tooltip tooltip-unimplemented">
-                            Rust
-                        </button>
-                        <button disabled className="tooltip tooltip-unimplemented">
-                            Java
-                        </button>
-                        <button disabled className="tooltip tooltip-unimplemented">
-                            C++
-                        </button>
-                        <button disabled className="tooltip tooltip-only-ascii">C</button>
-                    </div>
-                    <div className="export-tab-content">
-                        <pre>
-                            {genPython_(dfa)}
-                        </pre>
-                    </div>
+                    <ExportAsCodeDfa dfa={dfa} lang={lang} />
                 </div>
+
                 <div className="panel">
                     <h2>{t.exportVisual}</h2>
                     <div className="export-tabs">
@@ -237,23 +216,5 @@ ${[
         </div>
     );
 };
-
-
-
-
-
-function genPython_(dfa: DFA): string {
-    let code = `def run_automaton(input_str):\n`;
-    code += `    state = '${dfa.initial_state}' # Initial state\n`;
-    for (let i = 0; i < dfa.states.length; i++) {
-        code += `    if state == '${dfa.states[i]}':\n`;
-        for (let j = 0; j < dfa.alphabets.length; j++) {
-            code += `        if char == '${dfa.alphabets[j]}':\n`;
-            code += `            state = '${dfa.transition_table.get(dfa.states[i])?.get(dfa.alphabets[j])}'\n`;
-        }
-    }
-    code += `    return state in ['${dfa.accept_states.join("', '")}'] # Accept state\n`;
-    return code;
-}
 
 export default DashboardDfa;
