@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import reggameLogo from './assets/reggame-io-logo.png'
 import graphviz from './assets/graphviz.svg'
-import './styles.css';
+import './dashboard.css';
 import { DFA } from './types_automaton';
 import TransitionTableDfa from './transition_table';
+import AcceptancePercentageTableDfa from './acceptance_percentage_table';
 
 interface DashboardDfaProps {
     dfa: DFA;
@@ -27,10 +28,6 @@ const translations = {
         "maximalAcceptedStringLength": "Maximal Accepted String Length",
         "pumpingLength": "Pumping Length",
         "acceptanceRateByStringLength": "Acceptance Rate by String Length",
-        "length": "Length",
-        "accepted": "Accepted",
-        "rejected": "Rejected",
-        "acceptanceRate": "Acceptance Rate",
         "export": "Export"
     },
     "en-UK": {
@@ -50,10 +47,6 @@ const translations = {
         "maximalAcceptedStringLength": "Maximal Accepted String Length",
         "pumpingLength": "Pumping Length",
         "acceptanceRateByStringLength": "Acceptance Rate by String Length",
-        "length": "Length",
-        "accepted": "Accepted",
-        "rejected": "Rejected",
-        "acceptanceRate": "Acceptance Rate",
         "export": "Export"
     },
     "ja": {
@@ -73,10 +66,6 @@ const translations = {
         "maximalAcceptedStringLength": "最大受理文字列長",
         "pumpingLength": "ポンピング長",
         "acceptanceRateByStringLength": "文字列長ごとの受理率",
-        "length": "文字列長",
-        "accepted": "受理する文字列の個数",
-        "rejected": "拒否する文字列の個数",
-        "acceptanceRate": "受理率",
         "export": "エクスポート"
     }
 };
@@ -175,19 +164,7 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa }) => {
 
                 <div className="panel unimplemented">
                     <h2>{t.acceptanceRateByStringLength}</h2>
-                    <table className="acceptance-percentage-table">
-                        <thead>
-                            <tr><th>{t.length}</th><th>{t.accepted}</th><th>{t.rejected}</th><th>{t.acceptanceRate}</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>0</td><td>0</td><td>1</td><td>0%</td></tr>
-                            <tr><td>1</td><td>0</td><td>2</td><td>0%</td></tr>
-                            <tr><td>2</td><td>1</td><td>3</td><td>25%</td></tr>
-                            <tr><td>3</td><td>2</td><td>6</td><td>25%</td></tr>
-                            <tr><td>4</td><td>4</td><td>12</td><td>25%</td></tr>
-                            <tr><td>5</td><td>8</td><td>24</td><td>25%</td></tr>
-                        </tbody>
-                    </table>
+                    <AcceptancePercentageTableDfa dfa={dfa} lang={language} />
                 </div>
 
                 <div className="panel export-section">
