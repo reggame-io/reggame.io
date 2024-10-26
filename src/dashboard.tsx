@@ -10,74 +10,74 @@ interface DashboardDfaProps {
 }
 
 const translations = {
-    'en-US': {
-        graphicalRepresentation: 'Graphical Representation',
-        transitionTable: 'Transition Table',
-        automatonProperties: 'Automaton Properties',
-        type: 'Type',
-        numberOfStates: 'Number of states',
-        alphabetSet: 'Alphabet set',
-        testCases: 'Test Cases',
-        positiveTestCases: 'Positive Test Cases',
-        negativeTestCases: 'Negative Test Cases',
-        languageProperties: 'Language Properties',
-        property: 'Property',
-        value: 'Value',
-        minimalAcceptedStringLength: 'Minimal Accepted String Length',
-        maximalAcceptedStringLength: 'Maximal Accepted String Length',
-        pumpingLength: 'Pumping Length',
-        acceptanceRateByStringLength: 'Acceptance Rate by String Length',
-        length: 'Length',
-        accepted: 'Accepted',
-        rejected: 'Rejected',
-        acceptanceRate: 'Acceptance Rate',
-        export: 'Export',
+    "en-US": {
+        "graphicalRepresentation": "Graphical Representation",
+        "transitionTable": "Transition Table",
+        "automatonProperties": "Automaton Properties",
+        "type": "Type",
+        "numberOfStates": "Number of states",
+        "alphabetSet": "Alphabet set",
+        "testCases": "Test Cases",
+        "positiveTestCases": "Positive Test Cases",
+        "negativeTestCases": "Negative Test Cases",
+        "languageProperties": "Language Properties",
+        "property": "Property",
+        "value": "Value",
+        "minimalAcceptedStringLength": "Minimal Accepted String Length",
+        "maximalAcceptedStringLength": "Maximal Accepted String Length",
+        "pumpingLength": "Pumping Length",
+        "acceptanceRateByStringLength": "Acceptance Rate by String Length",
+        "length": "Length",
+        "accepted": "Accepted",
+        "rejected": "Rejected",
+        "acceptanceRate": "Acceptance Rate",
+        "export": "Export"
     },
-    'en-UK': {
-        graphicalRepresentation: 'Graphical Representation',
-        transitionTable: 'Transition Table',
-        automatonProperties: 'Automaton Properties',
-        type: 'Type',
-        numberOfStates: 'Number of states',
-        alphabetSet: 'Alphabet set',
-        testCases: 'Test Cases',
-        positiveTestCases: 'Positive Test Cases',
-        negativeTestCases: 'Negative Test Cases',
-        languageProperties: 'Language Properties',
-        property: 'Property',
-        value: 'Value',
-        minimalAcceptedStringLength: 'Minimal Accepted String Length',
-        maximalAcceptedStringLength: 'Maximal Accepted String Length',
-        pumpingLength: 'Pumping Length',
-        acceptanceRateByStringLength: 'Acceptance Rate by String Length',
-        length: 'Length',
-        accepted: 'Accepted',
-        rejected: 'Rejected',
-        acceptanceRate: 'Acceptance Rate',
-        export: 'Export',
+    "en-UK": {
+        "graphicalRepresentation": "Graphical Representation",
+        "transitionTable": "Transition Table",
+        "automatonProperties": "Automaton Properties",
+        "type": "Type",
+        "numberOfStates": "Number of states",
+        "alphabetSet": "Alphabet set",
+        "testCases": "Test Cases",
+        "positiveTestCases": "Positive Test Cases",
+        "negativeTestCases": "Negative Test Cases",
+        "languageProperties": "Language Properties",
+        "property": "Property",
+        "value": "Value",
+        "minimalAcceptedStringLength": "Minimal Accepted String Length",
+        "maximalAcceptedStringLength": "Maximal Accepted String Length",
+        "pumpingLength": "Pumping Length",
+        "acceptanceRateByStringLength": "Acceptance Rate by String Length",
+        "length": "Length",
+        "accepted": "Accepted",
+        "rejected": "Rejected",
+        "acceptanceRate": "Acceptance Rate",
+        "export": "Export"
     },
-    'ja': {
-        graphicalRepresentation: '図示',
-        transitionTable: '遷移表',
-        automatonProperties: 'オートマトンの性質',
-        type: 'タイプ',
-        numberOfStates: '状態の数',
-        alphabetSet: 'アルファベットセット',
-        testCases: 'テストケース',
-        positiveTestCases: '受理すべき文字列',
-        negativeTestCases: '拒否すべき文字列',
-        languageProperties: '形式言語の性質',
-        property: '性質',
-        value: '値',
-        minimalAcceptedStringLength: '最小受理文字列長',
-        maximalAcceptedStringLength: '最大受理文字列長',
-        pumpingLength: 'ポンピング長',
-        acceptanceRateByStringLength: '文字列長ごとの受理率',
-        length: '文字列長',
-        accepted: '受理',
-        rejected: '拒否',
-        acceptanceRate: '受理率',
-        export: 'エクスポート',
+    "ja": {
+        "graphicalRepresentation": "図示",
+        "transitionTable": "遷移表",
+        "automatonProperties": "オートマトンの性質",
+        "type": "種別",
+        "numberOfStates": "状態の数",
+        "alphabetSet": "文字集合",
+        "testCases": "テストケース",
+        "positiveTestCases": "受理すべき文字列",
+        "negativeTestCases": "拒否すべき文字列",
+        "languageProperties": "形式言語の性質",
+        "property": "性質",
+        "value": "値",
+        "minimalAcceptedStringLength": "最小受理文字列長",
+        "maximalAcceptedStringLength": "最大受理文字列長",
+        "pumpingLength": "ポンピング長",
+        "acceptanceRateByStringLength": "文字列長ごとの受理率",
+        "length": "文字列長",
+        "accepted": "受理",
+        "rejected": "拒否",
+        "acceptanceRate": "受理率",
+        "export": "エクスポート"
     }
 };
 
@@ -104,7 +104,7 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa }) => {
                     <select value={language} onChange={handleLanguageChange}>
                         <option value="en-US">English (United States)</option>
                         <option value="en-UK">English (United Kingdom)</option>
-                        <option value="ja">Japanese</option>
+                        <option value="ja">日本語</option>
                     </select>
                 </div>
             </header>
@@ -122,7 +122,7 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa }) => {
 
                 <div className="automaton-type">
                     <h2>{t.automatonProperties}</h2>
-                    <table>
+                    <table className="properties-table">
                         <thead>
                             <tr><th>{t.property}</th><th>{t.value}</th></tr>
                         </thead>
@@ -161,7 +161,7 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa }) => {
 
                 <div className="properties-table-container unimplemented">
                     <h2>{t.languageProperties}</h2>
-                    <table className="properties-table">
+                    <table className="properties-table language-properties-table">
                         <thead>
                             <tr><th>{t.property}</th><th>{t.value}</th></tr>
                         </thead>

@@ -121,13 +121,31 @@ main {
     background-color: rgb(230, 243, 255);
 }
 
-.properties-table tr :last-child {
+.language-properties-table tr :last-child {
     text-align: right;
 }
 
 .tooltip {
     position: relative;
     display: inline-block;
+}
+
+.properties-table {
+    border-collapse: collapse;
+}
+
+.properties-table thead {
+    background-color: rgb(230, 243, 255);
+}
+
+.properties-table thead th {
+    border: 1px solid #707070;
+    padding: 8px;
+}
+
+.properties-table td {
+    border: 1px solid #707070;
+    padding: 8px;
 }
 
 
