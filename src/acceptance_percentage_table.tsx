@@ -1,23 +1,48 @@
 import { DFA } from "./types_automaton";
+import { State } from "./types_automaton";
+
+function countAcceptedWithinFixedLength(dfa: DFA, length: number): number {
+    const map: Map<State, number> = new Map();
+    map.set(dfa.initial_state, 1);
+    for (let i = 0; i < length; i++) {
+        const new_map: Map<State, number> = new Map();
+        for (const [state, count] of map) {
+            for (const alphabet of dfa.alphabets) {
+                const next_state = dfa.transition_table.get(state)?.get(alphabet);
+                if (next_state !== undefined) {
+                    new_map.set(next_state, (new_map.get(next_state) || 0) + count);
+                }
+            }
+        }
+        map.clear();
+        for (const [state, count] of new_map) {
+            map.set(state, count);
+        }
+    }
+    let accepted = 0;
+    for (const [state, count] of map) {
+        if (dfa.accept_states.includes(state)) {
+            accepted += count;
+        }
+    }
+    return accepted;
+}
 
 const AcceptancePrecentageTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ dfa, lang }) => {
     const translations = {
         "en-US": {
-
             "length": "Length",
             "accepted": "Accepted",
             "rejected": "Rejected",
             "acceptanceRate": "Acceptance Rate",
         },
         "en-UK": {
-
             "length": "Length",
             "accepted": "Accepted",
             "rejected": "Rejected",
             "acceptanceRate": "Acceptance Rate",
         },
         "ja": {
-
             "length": "文字列長",
             "accepted": "受理する文字列の個数",
             "rejected": "拒否する文字列の個数",
@@ -30,12 +55,15 @@ const AcceptancePrecentageTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK"
             <tr><th>{t.length}</th><th>{t.accepted}</th><th>{t.rejected}</th><th>{t.acceptanceRate}</th></tr>
         </thead>
         <tbody>
-            <tr><td>0</td><td>0</td><td>1</td><td>0%</td></tr>
-            <tr><td>1</td><td>0</td><td>2</td><td>0%</td></tr>
-            <tr><td>2</td><td>1</td><td>3</td><td>25%</td></tr>
-            <tr><td>3</td><td>2</td><td>6</td><td>25%</td></tr>
-            <tr><td>4</td><td>4</td><td>12</td><td>25%</td></tr>
-            <tr><td>5</td><td>8</td><td>24</td><td>25%</td></tr>
+            {
+                Array.from({ length: 6 }, (_, i) => {
+                    const length = i;
+                    const accepted = countAcceptedWithinFixedLength(dfa, length);
+                    const rejected = Math.pow(dfa.alphabets.length, i) - accepted;
+                    const acceptanceRate = `${Math.round(accepted / (accepted + rejected) * 100)}%`;
+                    return <tr key={i}><td>{length}</td><td>{accepted}</td><td>{rejected}</td><td>{acceptanceRate}</td></tr>
+                })
+            }
         </tbody>
     </table>
 }

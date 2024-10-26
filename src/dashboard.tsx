@@ -162,7 +162,7 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa }) => {
                     </table>
                 </div>
 
-                <div className="panel unimplemented">
+                <div className="panel">
                     <h2>{t.acceptanceRateByStringLength}</h2>
                     <AcceptancePercentageTableDfa dfa={dfa} lang={language} />
                 </div>
