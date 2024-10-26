@@ -1,11 +1,28 @@
 import './styles.css';
 import { DFA } from './types_automaton';
 
-const TransitionTableDfa: React.FC<{ dfa: DFA }> = ({ dfa }) => {
+const TransitionTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ dfa, lang }) => {
+    const translations = {
+        "en-US": {
+            state: "State",
+            alphabet: "Alphabet",
+            acceptState: "Accept State"
+        },
+        "en-UK": {
+            state: "State",
+            alphabet: "Alphabet",
+            acceptState: "Accept State"
+        },
+        "ja": {
+            state: "状態",
+            alphabet: "文字",
+            acceptState: "受理状態"
+        }
+    }
     return <table className="transition-table">
         <thead>
             <tr>
-                <td>↓ State (Q) ＼ Alphabet (Σ) →</td>
+                <td>↓ {translations[lang].state} (Q) ＼ {translations[lang].alphabet} (Σ) →</td>
                 {
                     dfa.alphabets.map((alphabet) => <td key={alphabet}>{alphabet}</td>)
                 }
