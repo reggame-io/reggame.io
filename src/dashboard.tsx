@@ -2,11 +2,11 @@ import React from 'react';
 import reggameLogo from './assets/reggame-io-logo.png'
 import { Graphviz } from 'graphviz-react';
 import './dashboard.css';
-import { DFA } from './types_automaton';
-import TransitionTableDfa from './transition_table';
-import AcceptancePercentageTableDfa from './acceptance_percentage_table';
-import RegularLanguagePropertiesTableDfa from './regular_language_properties';
-import ExportAsCodeDfa from './export-as-code';
+import { DFA } from './types-automaton';
+import TransitionTableDfa from './panel/transition-table';
+import AcceptancePercentageTableDfa from './panel/acceptance-percentage_table';
+import RegularLanguagePropertiesTableDfa from './panel/regular-language-properties';
+import ExportAsCodeDfa from './panel/export-as-code';
 import { Panel, UnimplementedPanel } from './panel';
 
 interface DashboardDfaProps {

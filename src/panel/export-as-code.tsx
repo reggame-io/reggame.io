@@ -1,7 +1,7 @@
 import React from "react";
-import { DFA } from "./types_automaton";
-import { SupportedNaturalLanguage } from "./dashboard";
-import "./export-as-code.css";
+import { DFA } from "../types-automaton";
+import { SupportedNaturalLanguage } from "../dashboard";
+import "../panel/export-as-code.css";
 
 const ExportAsCodeDfa: React.FC<{ dfa: DFA, lang: SupportedNaturalLanguage }> = ({ dfa }) => {
     const [programmingLanguage, setProgrammingLanguage] = React.useState('Python');

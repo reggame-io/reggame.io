@@ -1,4 +1,4 @@
-import { DFA, AutomatonState } from "./types_automaton";
+import { DFA, AutomatonState } from "../types-automaton";
 
 const translations = {
     "en-US": {

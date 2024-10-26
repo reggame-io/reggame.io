@@ -1,5 +1,5 @@
-import { DFA } from "./types_automaton";
-import { AutomatonState } from "./types_automaton";
+import { DFA } from "../types-automaton";
+import { AutomatonState } from "../types-automaton";
 
 function countAcceptedWithinFixedLength(dfa: DFA, length: number): number {
     const map: Map<AutomatonState, number> = new Map();
