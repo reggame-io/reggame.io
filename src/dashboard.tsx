@@ -4,7 +4,7 @@ import { Graphviz } from 'graphviz-react';
 import './dashboard.css';
 import { DFA } from './types-automaton';
 import TransitionTableDfa from './panel/transition-table';
-import AcceptancePercentageTableDfa from './panel/acceptance-percentage_table';
+import AcceptancePercentageTableDfa from './panel/acceptance-percentage-table';
 import RegularLanguagePropertiesTableDfa from './panel/regular-language-properties';
 import ExportAsCodeDfa from './panel/export-as-code';
 import { Panel, UnimplementedPanel } from './panel';
