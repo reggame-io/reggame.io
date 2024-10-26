@@ -1,5 +1,5 @@
 import './transition-table.css';
-import { DFA, State } from './types_automaton';
+import { DFA, AutomatonState } from './types_automaton';
 
 const TransitionTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ dfa, lang }) => {
     const translations = {
@@ -20,7 +20,7 @@ const TransitionTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }>
         }
     }
 
-    function renderAutomatonState(state: State) {
+    function renderAutomatonState(state: AutomatonState) {
         return <span className={dfa.accept_states.includes(state) ? 'acceptState' : 'state'}>{state}</span>;
     }
 

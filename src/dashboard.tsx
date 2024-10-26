@@ -1,6 +1,6 @@
 import React from 'react';
 import reggameLogo from './assets/reggame-io-logo.png'
-import graphviz from './assets/graphviz.svg'
+import { Graphviz } from 'graphviz-react';
 import './dashboard.css';
 import { DFA } from './types_automaton';
 import TransitionTableDfa from './transition_table';
@@ -15,6 +15,7 @@ interface DashboardDfaProps {
 const translations = {
     "en-US": {
         "graphicalRepresentation": "Graphical Representation",
+        "viewSource": "View Source",
         "transitionTable": "Transition Table",
         "automatonProperties": "Automaton Properties",
         "type": "Type",
@@ -27,10 +28,12 @@ const translations = {
         "property": "Property",
         "value": "Value",
         "acceptanceRateByStringLength": "Acceptance Rate by String Length",
-        "export": "Export"
+        "export": "Export the Automaton as Code",
+        "exportVisual": "Export Visual Representation"
     },
     "en-UK": {
         "graphicalRepresentation": "Graphical Representation",
+        "viewSource": "View Source",
         "transitionTable": "Transition Table",
         "automatonProperties": "Automaton Properties",
         "type": "Type",
@@ -43,10 +46,12 @@ const translations = {
         "property": "Property",
         "value": "Value",
         "acceptanceRateByStringLength": "Acceptance Rate by String Length",
-        "export": "Export"
+        "export": "Export the Automaton as Code",
+        "exportVisual": "Export Visual Representation"
     },
     "ja": {
         "graphicalRepresentation": "図示",
+        "viewSource": "ソースを表示",
         "transitionTable": "遷移表",
         "automatonProperties": "オートマトンの性質",
         "type": "種別",
@@ -59,7 +64,8 @@ const translations = {
         "property": "性質",
         "value": "値",
         "acceptanceRateByStringLength": "文字列長ごとの受理率",
-        "export": "エクスポート"
+        "export": "オートマトンをコードとしてエクスポート",
+        "exportVisual": "図示をエクスポート"
     }
 };
 
@@ -82,6 +88,23 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa, lang }) => {
 
     const t = translations[lang];
 
+    const graphvizSource = `digraph finite_state_machine {
+    node [shape = doublecircle]; ${dfa.accept_states.length ?
+                                dfa.accept_states.join(", ") + ";" : ""}
+    node [shape = circle];
+    "" [shape=none];
+${[
+                                ...dfa.transition_table.entries()
+    
+                            ].map(([state, inner_map]) => {
+                                return Array.from(inner_map.entries()).map(([c, dest]) => {
+                                    return `    ${state} -> ${dest} [label = "${c}"];`
+                                }).join("\n")
+                            }).join("\n")
+                            }
+    "" -> a
+}`;
+
     return (
         <div>
             <header>
@@ -96,9 +119,15 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa, lang }) => {
             </header>
 
             <main>
-                <div className="panel unimplemented">
+                <div className="panel">
                     <h2>{t.graphicalRepresentation}</h2>
-                    <img src={graphviz} alt="Automaton Diagram" />
+                    <Graphviz dot={graphvizSource} options={
+                        {height: 300}
+                    } />
+                    <details>
+                        <summary>{t.viewSource}</summary>
+                        <textarea readOnly={true} rows={10} cols={50} defaultValue={graphvizSource} />
+                    </details>
                 </div>
 
                 <div className="panel">
@@ -153,7 +182,7 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa, lang }) => {
                     </div>
                 </div>
 
-                <div className="panel unimplemented">
+                <div className="panel">
                     <h2>{t.languageProperties}</h2>
                     <RegularLanguagePropertiesTableDfa dfa={dfa} lang={lang} />
                 </div>
@@ -163,7 +192,7 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa, lang }) => {
                     <AcceptancePercentageTableDfa dfa={dfa} lang={lang} />
                 </div>
 
-                <div className="panel export-section">
+                <div className="panel">
                     <h2>{t.export}</h2>
                     <div className="export-tabs">
                         <button>Python</button>
@@ -187,6 +216,20 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa, lang }) => {
                     <div className="export-tab-content">
                         <pre>
                             {genPython_(dfa)}
+                        </pre>
+                    </div>
+                </div>
+                <div className="panel">
+                    <h2>{t.exportVisual}</h2>
+                    <div className="export-tabs">
+                        <button>Graphviz</button>
+                        <button disabled className="tooltip tooltip-unimplemented">
+                            TikZ
+                        </button>
+                    </div>
+                    <div className="export-tab-content">
+                        <pre>
+                            {graphvizSource}
                         </pre>
                     </div>
                 </div>

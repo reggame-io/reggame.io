@@ -1,4 +1,4 @@
-import { DFA, State } from "./types_automaton";
+import { DFA, AutomatonState } from "./types_automaton";
 
 const translations = {
     "en-US": {
@@ -28,14 +28,14 @@ const translations = {
 };
 
 function minimalAcceptedStringLength(dfa: DFA): number | null {
-    const populated: Map<State, boolean> = new Map();
+    const populated: Map<AutomatonState, boolean> = new Map();
     if (dfa.accept_states.includes(dfa.initial_state)) {
         return 0;
     }
 
     populated.set(dfa.initial_state, true);
     for (let i = 0; i < dfa.states.length; i++) {
-        const new_populated: Map<State, boolean> = new Map();
+        const new_populated: Map<AutomatonState, boolean> = new Map();
         for (const [state, count] of populated) {
             for (const alphabet of dfa.alphabets) {
                 const next_state = dfa.transition_table.get(state)?.get(alphabet);
@@ -66,8 +66,8 @@ const RegularLanguagePropertiesTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "e
                 <tr><td>{t.minimalAcceptedStringLength}</td><td>{
                     minimalAcceptedStringLength(dfa) === null ? "N/A" : minimalAcceptedStringLength(dfa)
                 }</td></tr>
-                <tr><td>{t.maximalAcceptedStringLength}</td><td>∞</td></tr>
-                <tr><td>{t.pumpingLength}</td><td>3</td></tr>
+                <tr><td>{t.maximalAcceptedStringLength}</td><td className="unimplemented">∞</td></tr>
+                <tr><td>{t.pumpingLength}</td><td className="unimplemented">3</td></tr>
             </tbody>
         </table>
     </>

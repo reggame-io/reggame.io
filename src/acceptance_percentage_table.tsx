@@ -1,11 +1,11 @@
 import { DFA } from "./types_automaton";
-import { State } from "./types_automaton";
+import { AutomatonState } from "./types_automaton";
 
 function countAcceptedWithinFixedLength(dfa: DFA, length: number): number {
-    const map: Map<State, number> = new Map();
+    const map: Map<AutomatonState, number> = new Map();
     map.set(dfa.initial_state, 1);
     for (let i = 0; i < length; i++) {
-        const new_map: Map<State, number> = new Map();
+        const new_map: Map<AutomatonState, number> = new Map();
         for (const [state, count] of map) {
             for (const alphabet of dfa.alphabets) {
                 const next_state = dfa.transition_table.get(state)?.get(alphabet);

@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import Dashboard, { isSupportedNaturalLanguage, SupportedNaturalLanguage } from './dashboard.tsx'
-import { DFA, State, Alphabet } from './types_automaton.ts';
+import { DFA, AutomatonState, Alphabet, getIthAutomatonState, getIthAlphabet } from './types_automaton.ts';
 
 const queryParams = new URLSearchParams(window.location.search);
 const table = queryParams.get('table');
@@ -19,21 +19,21 @@ function parseDFA(table_in_string_format: string): DFA | null {
     return null;
   }
   const state_count = table_in_string_format.split('_').length;
-  const accept_states = [...table_in_string_format].filter((c) => c !== c.toLowerCase()).map((c) => c.toLowerCase());
-  const alphabets = table_in_string_format.split('_')[0].split('').map((_, i) => String.fromCharCode(48 + i));
-  const transition_table: Map<State, Map<Alphabet, State>> = new Map();
+  const accept_states: ReadonlyArray<AutomatonState> = [...table_in_string_format].filter((c) => c !== c.toLowerCase()).map((c) => c.toLowerCase()) as unknown as ReadonlyArray<AutomatonState>; // TODO: validation needed
+  const alphabets: ReadonlyArray<Alphabet> = table_in_string_format.split('_')[0].split('').map((_, i) => getIthAlphabet( i));
+  const transition_table: Map<AutomatonState, Map<Alphabet, AutomatonState>> = new Map();
   for (let i = 0; i < state_count; i++) {
     for (let j = 0; j < alphabets.length; j++) {
-      const cell = table_in_string_format.split('_')[i].split('')[j].toLowerCase();
-      if (!transition_table.has(String.fromCharCode(97 + i))) {
-        transition_table.set(String.fromCharCode(97 + i), new Map());
+      const cell = table_in_string_format.split('_')[i].split('')[j].toLowerCase() as unknown as AutomatonState; // TODO: validation needed
+      if (!transition_table.has(getIthAutomatonState(i))) {
+        transition_table.set(getIthAutomatonState(i), new Map());
       }
-      transition_table.get(String.fromCharCode(97 + i))?.set(alphabets[j], cell);
+      transition_table.get(getIthAutomatonState(i))?.set(alphabets[j], cell);
     }
   }
   return {
-    initial_state: 'a',
-    states: Array.from({ length: state_count }, (_, i) => String.fromCharCode(97 + i)),
+    initial_state: 'a' as ('a' & AutomatonState),
+    states: Array.from({ length: state_count }, (_, i) => getIthAutomatonState(i)),
     alphabets,
     transition_table,
     accept_states
