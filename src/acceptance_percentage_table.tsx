@@ -56,7 +56,7 @@ const AcceptancePrecentageTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK"
         </thead>
         <tbody>
             {
-                Array.from({ length: 6 }, (_, i) => {
+                Array.from({ length: dfa.states.length * 2 }, (_, i) => {
                     const length = i;
                     const accepted = countAcceptedWithinFixedLength(dfa, length);
                     const rejected = Math.pow(dfa.alphabets.length, i) - accepted;
