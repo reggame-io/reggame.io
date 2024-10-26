@@ -1,5 +1,5 @@
 import './transition-table.css';
-import { DFA } from './types_automaton';
+import { DFA, State } from './types_automaton';
 
 const TransitionTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ dfa, lang }) => {
     const translations = {
@@ -19,6 +19,11 @@ const TransitionTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }>
             acceptState: "受理状態"
         }
     }
+
+    function renderAutomatonState(state: State) {
+        return <span className={dfa.accept_states.includes(state) ? 'acceptState' : 'state'}>{state}</span>;
+    }
+
     return <table className="transition-table">
         <thead>
             <tr>
@@ -32,10 +37,12 @@ const TransitionTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }>
             {
                 dfa.states.map((state) => (
                     <tr key={state}>
-                        <td><span className={dfa.accept_states.includes(state) ? 'acceptState' : 'state'}>{state}</span></td>
+                        <td>{renderAutomatonState(state)}</td>
                         {
                             dfa.alphabets.map((alphabet) => (
-                                <td key={alphabet}>{dfa.transition_table.get(state)?.get(alphabet)}</td>
+                                <td key={alphabet}>{
+                                    renderAutomatonState(dfa.transition_table.get(state)?.get(alphabet)!)
+                                }</td>
                             ))
                         }
                     </tr>

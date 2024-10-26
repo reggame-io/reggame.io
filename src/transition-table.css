@@ -11,6 +11,10 @@
     padding: 10px 8px;
 }
 
+.transition-table tr td {
+    text-align: center;
+}
+
 .transition-table tr td:first-child {
     text-align: center;
     background-color: rgb(230, 243, 255);
