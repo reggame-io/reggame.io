@@ -110,17 +110,17 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa }) => {
             </header>
 
             <main>
-                <div className="graphical-representation unimplemented">
+                <div className="panel unimplemented">
                     <h2>{t.graphicalRepresentation}</h2>
                     <img src={graphviz} alt="Automaton Diagram" />
                 </div>
 
-                <div className="transition-table">
+                <div className="panel">
                     <h2>{t.transitionTable}</h2>
                     <TransitionTableDfa dfa={dfa} lang={language} />
                 </div>
 
-                <div className="automaton-type">
+                <div className="panel">
                     <h2>{t.automatonProperties}</h2>
                     <table className="properties-table">
                         <thead>
@@ -141,7 +141,7 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa }) => {
                     </table>
                 </div>
 
-                <div className="test-cases unimplemented">
+                <div className="panel unimplemented">
                     <h2>{t.testCases}</h2>
                     <div className="test-case-tabs">
                         <button>JSON</button>
@@ -159,7 +159,7 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa }) => {
                     </div>
                 </div>
 
-                <div className="properties-table-container unimplemented">
+                <div className="panel unimplemented">
                     <h2>{t.languageProperties}</h2>
                     <table className="properties-table language-properties-table">
                         <thead>
@@ -173,7 +173,7 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa }) => {
                     </table>
                 </div>
 
-                <div className="bar-graph unimplemented">
+                <div className="panel unimplemented">
                     <h2>{t.acceptanceRateByStringLength}</h2>
                     <table className="acceptance-table">
                         <thead style={{ fontWeight: 'bold' }}>
@@ -190,7 +190,7 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa }) => {
                     </table>
                 </div>
 
-                <div className="export-section">
+                <div className="panel export-section">
                     <h2>{t.export}</h2>
                     <div className="export-tabs">
                         <button>Python</button>
