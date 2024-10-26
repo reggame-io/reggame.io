@@ -7,6 +7,7 @@ import TransitionTableDfa from './transition_table';
 import AcceptancePercentageTableDfa from './acceptance_percentage_table';
 import RegularLanguagePropertiesTableDfa from './regular_language_properties';
 import ExportAsCodeDfa from './export-as-code';
+import { Panel, UnimplementedPanel } from './panel';
 
 interface DashboardDfaProps {
     dfa: DFA;
@@ -91,18 +92,18 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa, lang }) => {
 
     const graphvizSource = `digraph finite_state_machine {
     node [shape = doublecircle]; ${dfa.accept_states.length ?
-                                dfa.accept_states.join(", ") + ";" : ""}
+            dfa.accept_states.join(", ") + ";" : ""}
     node [shape = circle];
     "" [shape=none];
 ${[
-                                ...dfa.transition_table.entries()
-    
-                            ].map(([state, inner_map]) => {
-                                return Array.from(inner_map.entries()).map(([c, dest]) => {
-                                    return `    ${state} -> ${dest} [label = "${c}"];`
-                                }).join("\n")
-                            }).join("\n")
-                            }
+            ...dfa.transition_table.entries()
+
+        ].map(([state, inner_map]) => {
+            return Array.from(inner_map.entries()).map(([c, dest]) => {
+                return `    ${state} -> ${dest} [label = "${c}"];`
+            }).join("\n")
+        }).join("\n")
+        }
     "" -> a
 }`;
 
@@ -120,24 +121,21 @@ ${[
             </header>
 
             <main>
-                <div className="panel">
-                    <h2>{t.graphicalRepresentation}</h2>
+                <Panel title={t.graphicalRepresentation}>
                     <Graphviz dot={graphvizSource} options={
-                        {height: 300}
+                        { height: 300 }
                     } />
                     <details>
                         <summary>{t.viewSource}</summary>
                         <textarea readOnly={true} rows={10} cols={50} defaultValue={graphvizSource} />
                     </details>
-                </div>
+                </Panel>
 
-                <div className="panel">
-                    <h2>{t.transitionTable}</h2>
+                <Panel title={t.transitionTable}>
                     <TransitionTableDfa dfa={dfa} lang={lang} />
-                </div>
+                </Panel>
 
-                <div className="panel">
-                    <h2>{t.automatonProperties}</h2>
+                <Panel title={t.automatonProperties}>
                     <table className="properties-table">
                         <thead>
                             <tr><th>{t.property}</th><th>{t.value}</th></tr>
@@ -163,10 +161,9 @@ ${[
                                 {'}'}</td></tr>
                         </tbody>
                     </table>
-                </div>
+                </Panel>
 
-                <div className="panel unimplemented">
-                    <h2>{t.testCases}</h2>
+                <UnimplementedPanel title={t.testCases}>
                     <div className="test-case-tabs">
                         <button>JSON</button>
                         <button disabled className="tooltip tooltip-unimplemented">
@@ -181,25 +178,21 @@ ${[
                         <h3>{t.negativeTestCases}</h3>
                         <textarea rows={4} cols={30} defaultValue={`["100", "0010", "1110", "01010111"]`} />
                     </div>
-                </div>
+                </UnimplementedPanel>
 
-                <div className="panel">
-                    <h2>{t.languageProperties}</h2>
+                <Panel title={t.languageProperties}>
                     <RegularLanguagePropertiesTableDfa dfa={dfa} lang={lang} />
-                </div>
+                </Panel>
 
-                <div className="panel">
-                    <h2>{t.acceptanceRateByStringLength}</h2>
+                <Panel title={t.acceptanceRateByStringLength}>
                     <AcceptancePercentageTableDfa dfa={dfa} lang={lang} />
-                </div>
+                </Panel>
 
-                <div className="panel">
-                    <h2>{t.export}</h2>
+                <Panel title={t.export}>
                     <ExportAsCodeDfa dfa={dfa} lang={lang} />
-                </div>
+                </Panel>
 
-                <div className="panel">
-                    <h2>{t.exportVisual}</h2>
+                <Panel title={t.exportVisual}>
                     <div className="export-tabs">
                         <button>Graphviz</button>
                         <button disabled className="tooltip tooltip-unimplemented">
@@ -211,7 +204,7 @@ ${[
                             {graphvizSource}
                         </pre>
                     </div>
-                </div>
+                </Panel>
             </main>
         </div>
     );
