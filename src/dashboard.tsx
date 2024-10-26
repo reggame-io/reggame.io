@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import reggameLogo from './assets/reggame-io-logo.png'
 import graphviz from './assets/graphviz.svg'
 import './dashboard.css';
@@ -8,6 +8,7 @@ import AcceptancePercentageTableDfa from './acceptance_percentage_table';
 
 interface DashboardDfaProps {
     dfa: DFA;
+    lang: SupportedNaturalLanguage;
 }
 
 const translations = {
@@ -70,27 +71,31 @@ const translations = {
     }
 };
 
-type NaturalLanguage = keyof typeof translations;
+export type SupportedNaturalLanguage = keyof typeof translations;
 
-function isSupportedNaturalLanguage(lang: string): lang is NaturalLanguage {
+export function isSupportedNaturalLanguage(lang: string): lang is SupportedNaturalLanguage {
     return lang in translations;
 }
 
-const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa }) => {
-    const [language, setLanguage] = useState<NaturalLanguage>('en-US');
+const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa, lang }) => {
 
     const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setLanguage(isSupportedNaturalLanguage(event.target.value) ? event.target.value : 'en-US');
+        const queryParams = new URLSearchParams(window.location.search);
+        const lang = isSupportedNaturalLanguage(event.target.value) ? event.target.value : 'en-US';
+
+        window.location.href = `?mode=dashboard&table=${queryParams.get('table') || "ba_bC_ba"
+            }&lang=${lang}`;
+        throw new Error("Changing the language");
     };
 
-    const t = translations[language];
+    const t = translations[lang];
 
     return (
         <div>
             <header>
                 <img src={reggameLogo} height="90" alt="Logo" />
                 <div className="language-selection">
-                    <select value={language} onChange={handleLanguageChange}>
+                    <select value={lang} onChange={handleLanguageChange}>
                         <option value="en-US">English (United States)</option>
                         <option value="en-UK">English (United Kingdom)</option>
                         <option value="ja">日本語</option>
@@ -106,7 +111,7 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa }) => {
 
                 <div className="panel">
                     <h2>{t.transitionTable}</h2>
-                    <TransitionTableDfa dfa={dfa} lang={language} />
+                    <TransitionTableDfa dfa={dfa} lang={lang} />
                 </div>
 
                 <div className="panel">
@@ -164,7 +169,7 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa }) => {
 
                 <div className="panel">
                     <h2>{t.acceptanceRateByStringLength}</h2>
-                    <AcceptancePercentageTableDfa dfa={dfa} lang={language} />
+                    <AcceptancePercentageTableDfa dfa={dfa} lang={lang} />
                 </div>
 
                 <div className="panel export-section">
