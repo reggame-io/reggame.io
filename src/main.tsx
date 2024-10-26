@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import Dashboard, { isSupportedNaturalLanguage, SupportedNaturalLanguage } from './dashboard.tsx'
-import { DFA, AutomatonState, Alphabet, getIthAutomatonState, getIthAlphabet } from './types_automaton.ts';
+import { DFA, AutomatonState, Alphabet, getIthAutomatonState, getIthAlphabet } from './types-automaton.ts';
 
 const queryParams = new URLSearchParams(window.location.search);
 const table = queryParams.get('table');
