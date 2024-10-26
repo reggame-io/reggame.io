@@ -74,8 +74,8 @@ const translations = {
         "pumpingLength": "ポンピング長",
         "acceptanceRateByStringLength": "文字列長ごとの受理率",
         "length": "文字列長",
-        "accepted": "受理",
-        "rejected": "拒否",
+        "accepted": "受理する文字列の個数",
+        "rejected": "拒否する文字列の個数",
         "acceptanceRate": "受理率",
         "export": "エクスポート"
     }
@@ -175,9 +175,9 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa }) => {
 
                 <div className="panel unimplemented">
                     <h2>{t.acceptanceRateByStringLength}</h2>
-                    <table className="acceptance-table">
-                        <thead style={{ fontWeight: 'bold' }}>
-                            <tr><td>{t.length}</td><td>{t.accepted}</td><td>{t.rejected}</td><td>{t.acceptanceRate}</td></tr>
+                    <table className="acceptance-percentage-table">
+                        <thead>
+                            <tr><th>{t.length}</th><th>{t.accepted}</th><th>{t.rejected}</th><th>{t.acceptanceRate}</th></tr>
                         </thead>
                         <tbody>
                             <tr><td>0</td><td>0</td><td>1</td><td>0%</td></tr>

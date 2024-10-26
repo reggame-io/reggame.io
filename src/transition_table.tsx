@@ -1,4 +1,4 @@
-import './styles.css';
+import './transition-table.css';
 import { DFA } from './types_automaton';
 
 const TransitionTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ dfa, lang }) => {

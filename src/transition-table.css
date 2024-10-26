@@ -1,0 +1,17 @@
+.transition-table {
+    border-collapse: collapse;
+}
+
+.transition-table thead {
+    background-color: rgb(230, 243, 255);
+}
+
+.transition-table td {
+    border: 1px solid #707070;
+    padding: 10px 8px;
+}
+
+.transition-table tr td:first-child {
+    text-align: center;
+    background-color: rgb(230, 243, 255);
+}

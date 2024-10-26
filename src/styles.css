@@ -69,25 +69,6 @@ main {
     border-radius: 100px;
 }
 
-
-.transition-table {
-    border-collapse: collapse;
-}
-
-.transition-table thead {
-    background-color: rgb(230, 243, 255);
-}
-
-.transition-table td {
-    border: 1px solid #707070;
-    padding: 10px 8px;
-}
-
-.transition-table tr td:first-child {
-    text-align: center;
-    background-color: rgb(230, 243, 255);
-}
-
 .language-properties-table tr :last-child {
     text-align: right;
 }
@@ -157,24 +138,29 @@ main {
     white-space: nowrap;
 }
 
-.acceptance-table td {
+.acceptance-percentage-table th {
     border: 1px solid #707070;
     padding: 8px;
 }
 
-.acceptance-table {
+.acceptance-percentage-table td {
+    border: 1px solid #707070;
+    padding: 8px;
+}
+
+.acceptance-percentage-table {
     border-collapse: collapse;
 }
 
-.acceptance-table thead tr:first-child {
+.acceptance-percentage-table thead tr:first-child {
     background-color: rgb(230, 243, 255);
 }
 
-.acceptance-table tr td:first-child {
+.acceptance-percentage-table tr td:first-child {
     text-align: center;
     background-color: rgb(230, 243, 255);
 }
 
-.acceptance-table tr :not(:first-child) {
+.acceptance-percentage-table tr :not(:first-child) {
     text-align: right;
 }
