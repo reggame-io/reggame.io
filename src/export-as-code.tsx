@@ -1,6 +1,7 @@
 import React from "react";
 import { DFA } from "./types_automaton";
 import { SupportedNaturalLanguage } from "./dashboard";
+import "./export-as-code.css";
 
 const ExportAsCodeDfa: React.FC<{ dfa: DFA, lang: SupportedNaturalLanguage }> = ({ dfa }) => {
     const [programmingLanguage, setProgrammingLanguage] = React.useState('Python');
@@ -18,8 +19,18 @@ const ExportAsCodeDfa: React.FC<{ dfa: DFA, lang: SupportedNaturalLanguage }> = 
 
     return <>
         <div className="export-tabs">
-            <button onClick={() => setProgrammingLanguage('Python')}>Python</button>
-            <button onClick={() => setProgrammingLanguage('JavaScript')}>JavaScript</button>
+            <button 
+                onClick={() => setProgrammingLanguage('Python')} 
+                className={programmingLanguage === 'Python' ? 'highlighted' : ''}
+            >
+                Python
+            </button>
+            <button 
+                onClick={() => setProgrammingLanguage('JavaScript')} 
+                className={programmingLanguage === 'JavaScript' ? 'highlighted' : ''}
+            >
+                JavaScript
+            </button>
             <button disabled className="tooltip tooltip-unimplemented">
                 TypeScript
             </button>
