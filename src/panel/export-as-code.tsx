@@ -9,9 +9,11 @@ const ExportAsCodeDfa: React.FC<{ dfa: DFA, lang: SupportedNaturalLanguage }> = 
     const renderCode = () => {
         switch (programmingLanguage) {
             case 'Python':
-                return genPython_(dfa);
+                return genPython(dfa);
             case 'JavaScript':
-                return genJavaScript_(dfa);
+                return genJavaScript(dfa);
+            case 'TypeScript':
+                return genTypeScript(dfa);
             default:
                 return '';
         }
@@ -19,21 +21,17 @@ const ExportAsCodeDfa: React.FC<{ dfa: DFA, lang: SupportedNaturalLanguage }> = 
 
     return <>
         <div className="export-tabs">
-            <button 
-                onClick={() => setProgrammingLanguage('Python')} 
-                className={programmingLanguage === 'Python' ? 'highlighted' : ''}
-            >
-                Python
-            </button>
-            <button 
-                onClick={() => setProgrammingLanguage('JavaScript')} 
-                className={programmingLanguage === 'JavaScript' ? 'highlighted' : ''}
-            >
-                JavaScript
-            </button>
-            <button disabled className="tooltip tooltip-unimplemented">
-                TypeScript
-            </button>
+            {
+                ['Python', 'JavaScript', 'TypeScript'].map((lang) => {
+                    return <button
+                        key={lang}
+                        onClick={() => setProgrammingLanguage(lang)}
+                        className={programmingLanguage === lang ? 'highlighted' : ''}
+                    >
+                        {lang}
+                    </button>;
+                })
+            }
             <button disabled className="tooltip tooltip-unimplemented">
                 Rust
             </button>
@@ -53,7 +51,7 @@ const ExportAsCodeDfa: React.FC<{ dfa: DFA, lang: SupportedNaturalLanguage }> = 
     </>;
 }
 
-function genPython_(dfa: DFA): string {
+function genPython(dfa: DFA): string {
     let code = `def run_automaton(input_str):\n`;
     code += `    state = '${dfa.initial_state}' # Initial state\n`;
     code += `    for char in input_str:\n`;
@@ -68,7 +66,7 @@ function genPython_(dfa: DFA): string {
     return code;
 }
 
-function genJavaScript_(dfa: DFA): string {
+function genJavaScript(dfa: DFA): string {
     let code = `function runAutomaton(inputStr) {\n`;
     code += `    let state = '${dfa.initial_state}'; // Initial state\n`;
     code += `    for (let char of [...inputStr]) {\n`;
@@ -76,13 +74,33 @@ function genJavaScript_(dfa: DFA): string {
         code += `        if (state === '${dfa.states[i]}') {\n`;
         for (let j = 0; j < dfa.alphabets.length; j++) {
             code += `            if (char === '${dfa.alphabets[j]}') {\n`;
-            code += `                state = '${dfa.transition_table.get(dfa.states[i])?.get(dfa.alphabets[j])}'\n`;
+            code += `                state = '${dfa.transition_table.get(dfa.states[i])?.get(dfa.alphabets[j])}';\n`;
             code += `            }\n`;
         }
         code += `        }\n`;
     }
     code += `    }\n`;
     code += `    return ['${dfa.accept_states.join("', '")}'].includes(state); // Accept state\n`;
+    return code;
+}
+
+function genTypeScript(dfa: DFA): string {
+    let code = `function runAutomaton(inputStr: string): boolean {\n`;
+    code += `    type AutomatonState = '${dfa.states.join("' | '")}';\n`;
+    code += `    let state: AutomatonState = '${dfa.initial_state}'; // Initial state\n`;
+    code += `    for (let char of [...inputStr]) {\n`;
+    for (let i = 0; i < dfa.states.length; i++) {
+        code += `        if (state === '${dfa.states[i]}') {\n`;
+        for (let j = 0; j < dfa.alphabets.length; j++) {
+            code += `            if (char === '${dfa.alphabets[j]}') {\n`;
+            code += `                state = '${dfa.transition_table.get(dfa.states[i])?.get(dfa.alphabets[j])}';\n`;
+            code += `            }\n`;
+        }
+        code += `        }\n`;
+    }
+    code += `    }\n`;
+    code += `    return ['${dfa.accept_states.join("', '")}'].includes(state); // Accept state\n`;
+    code += `}\n`;
     return code;
 }
 
