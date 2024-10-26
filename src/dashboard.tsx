@@ -5,6 +5,7 @@ import './dashboard.css';
 import { DFA } from './types_automaton';
 import TransitionTableDfa from './transition_table';
 import AcceptancePercentageTableDfa from './acceptance_percentage_table';
+import RegularLanguagePropertiesTableDfa from './regular_language_properties';
 
 interface DashboardDfaProps {
     dfa: DFA;
@@ -22,12 +23,9 @@ const translations = {
         "testCases": "Test Cases",
         "positiveTestCases": "Positive Test Cases",
         "negativeTestCases": "Negative Test Cases",
-        "languageProperties": "Language Properties",
+        "languageProperties": "Properties of the Formal Language",
         "property": "Property",
         "value": "Value",
-        "minimalAcceptedStringLength": "Minimal Accepted String Length",
-        "maximalAcceptedStringLength": "Maximal Accepted String Length",
-        "pumpingLength": "Pumping Length",
         "acceptanceRateByStringLength": "Acceptance Rate by String Length",
         "export": "Export"
     },
@@ -41,12 +39,9 @@ const translations = {
         "testCases": "Test Cases",
         "positiveTestCases": "Positive Test Cases",
         "negativeTestCases": "Negative Test Cases",
-        "languageProperties": "Language Properties",
+        "languageProperties": "Properties of the Formal Language",
         "property": "Property",
         "value": "Value",
-        "minimalAcceptedStringLength": "Minimal Accepted String Length",
-        "maximalAcceptedStringLength": "Maximal Accepted String Length",
-        "pumpingLength": "Pumping Length",
         "acceptanceRateByStringLength": "Acceptance Rate by String Length",
         "export": "Export"
     },
@@ -63,9 +58,6 @@ const translations = {
         "languageProperties": "形式言語の性質",
         "property": "性質",
         "value": "値",
-        "minimalAcceptedStringLength": "最小受理文字列長",
-        "maximalAcceptedStringLength": "最大受理文字列長",
-        "pumpingLength": "ポンピング長",
         "acceptanceRateByStringLength": "文字列長ごとの受理率",
         "export": "エクスポート"
     }
@@ -155,16 +147,7 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa, lang }) => {
 
                 <div className="panel unimplemented">
                     <h2>{t.languageProperties}</h2>
-                    <table className="properties-table language-properties-table">
-                        <thead>
-                            <tr><th>{t.property}</th><th>{t.value}</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>{t.minimalAcceptedStringLength}</td><td>2</td></tr>
-                            <tr><td>{t.maximalAcceptedStringLength}</td><td>∞</td></tr>
-                            <tr><td>{t.pumpingLength}</td><td>3</td></tr>
-                        </tbody>
-                    </table>
+                    <RegularLanguagePropertiesTableDfa dfa={dfa} lang={lang} />
                 </div>
 
                 <div className="panel">
