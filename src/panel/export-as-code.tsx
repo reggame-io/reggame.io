@@ -81,6 +81,7 @@ function genJavaScript(dfa: DFA): string {
     }
     code += `    }\n`;
     code += `    return ['${dfa.accept_states.join("', '")}'].includes(state); // Accept state\n`;
+    code += `}\n`;
     return code;
 }
 
