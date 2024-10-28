@@ -1,6 +1,7 @@
 import React from "react";
 import { DFA } from "../types-automaton";
 import { SupportedNaturalLanguage } from "../dashboard";
+import SyntaxHighlighter from 'react-syntax-highlighter';
 import "../panel/export-as-code.css";
 
 const ExportAsCodeDfa: React.FC<{ dfa: DFA, lang: SupportedNaturalLanguage }> = ({ dfa }) => {
@@ -22,13 +23,13 @@ const ExportAsCodeDfa: React.FC<{ dfa: DFA, lang: SupportedNaturalLanguage }> = 
     return <>
         <div className="export-tabs">
             {
-                ['Python', 'JavaScript', 'TypeScript'].map((lang) => {
+                ['Python', 'JavaScript', 'TypeScript'].map((prog_lang) => {
                     return <button
-                        key={lang}
-                        onClick={() => setProgrammingLanguage(lang)}
-                        className={programmingLanguage === lang ? 'highlighted' : ''}
+                        key={prog_lang}
+                        onClick={() => setProgrammingLanguage(prog_lang)}
+                        className={programmingLanguage === prog_lang ? 'highlighted' : ''}
                     >
-                        {lang}
+                        {prog_lang}
                     </button>;
                 })
             }
@@ -44,9 +45,9 @@ const ExportAsCodeDfa: React.FC<{ dfa: DFA, lang: SupportedNaturalLanguage }> = 
             <button disabled className="tooltip tooltip-only-ascii">C</button>
         </div>
         <div className="export-tab-content">
-            <pre>
+            <SyntaxHighlighter language={programmingLanguage.toLowerCase()} showLineNumbers={true}>
                 {renderCode()}
-            </pre>
+            </SyntaxHighlighter>
         </div>
     </>;
 }
