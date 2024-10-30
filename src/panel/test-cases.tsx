@@ -13,7 +13,7 @@ const translations = {
         "somePositiveTestCasesFailed": "☹️Some positive test cases failed",
         "allNegativeTestCasesPassed": "✅All negative test cases passed",
         "someNegativeTestCasesFailed": "☹️Some negative test cases failed",
-        "invalidInput": "⚠️The input contains invalid characters",
+        "invalidInput": "⚠️An input string contains invalid characters",
     },
     "en-UK": {
         "positiveTestCases": "Positive Test Cases",
@@ -24,7 +24,7 @@ const translations = {
         "somePositiveTestCasesFailed": "☹️Some positive test cases failed",
         "allNegativeTestCasesPassed": "✅All negative test cases passed",
         "someNegativeTestCasesFailed": "☹️Some negative test cases failed",
-        "invalidInput": "⚠️The input contains invalid characters",
+        "invalidInput": "⚠️An input string contains invalid characters",
     },
     "ja": {
         "positiveTestCases": "受理すべき文字列",
@@ -35,7 +35,7 @@ const translations = {
         "somePositiveTestCasesFailed": "☹️受理すべき文字列のうちいくつかが受理されませんでした",
         "allNegativeTestCasesPassed": "✅拒否すべき文字列がすべて正しく拒否されました",
         "someNegativeTestCasesFailed": "☹️拒否すべき文字列のうちいくつかが誤って受理されました",
-        "invalidInput": "⚠️入力に無効な文字が含まれています"
+        "invalidInput": "⚠️入力文字列に無効な文字が含まれています"
     }
 };
 
@@ -48,45 +48,61 @@ const runTestCases: (dfa: DFA, testCases: string[], expected: boolean) => boolea
         };
     };
 
+const Validator: React.FC<
+    {
+        dfa: DFA,
+        texts: {
+            title: string,
+            allPassed: string,
+            someFailed: string,
+            invalidInputString: string,
+            invalidJSON: string,
+        },
+        initialTestCases: string[], isPositive: boolean
+    }
+> = ({ dfa, texts, initialTestCases, isPositive }) => {
+    const [testCases, setTestCases] = React.useState<string[]>(initialTestCases);
+    const [allPassed, setAllPassed] = React.useState<boolean | null>(true);
+    const [jsonError, setJsonError] = React.useState<string | null>(null);
+
+    React.useEffect(() => {
+        setAllPassed(runTestCases(dfa, testCases, isPositive));
+    }, [testCases, dfa]);
+
+    const handleTextAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        try {
+            const newTestCases = JSON.parse(event.target.value);
+            setTestCases(newTestCases);
+            setJsonError(null);
+        } catch (e) {
+            setJsonError(texts.invalidJSON);
+        }
+    };
+
+    return <div>
+        <h3>{texts.title}</h3>
+        <textarea
+            rows={4}
+            cols={30}
+            defaultValue={JSON.stringify(testCases)}
+            onChange={handleTextAreaChange}
+            style={{ backgroundColor: jsonError ? '#ffb4b4' : 'white' }}
+        />
+        {
+            jsonError ?
+                <div style={{ color: 'red' }}>{jsonError}</div>
+                : <div>{
+                    allPassed === true ?
+                        texts.allPassed :
+                        allPassed === false ?
+                            texts.someFailed : texts.invalidInputString
+                }</div>
+        }
+    </div>
+};
+
 const TestCasesDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ dfa, lang }) => {
-
     const t = translations[lang];
-
-    const [positiveTestCases, setPositiveTestCases] = React.useState<string[]>(["01", "101", "001", "111101"]);
-    const [negativeTestCases, setNegativeTestCases] = React.useState<string[]>(["100", "0010", "1110", "01010111"]);
-    const [positiveResult, setPositiveResult] = React.useState<boolean | null>(true);
-    const [negativeResult, setNegativeResult] = React.useState<boolean | null>(true);
-    const [positiveError, setPositiveError] = React.useState<string | null>(null);
-    const [negativeError, setNegativeError] = React.useState<string | null>(null);
-
-    React.useEffect(() => {
-        setPositiveResult(runTestCases(dfa, positiveTestCases, true));
-    }, [positiveTestCases, dfa]);
-
-    React.useEffect(() => {
-        setNegativeResult(runTestCases(dfa, negativeTestCases, false));
-    }, [negativeTestCases, dfa]);
-
-    const handlePositiveChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        try {
-            const newTestCases = JSON.parse(event.target.value);
-            setPositiveTestCases(newTestCases);
-            setPositiveError(null);
-        } catch (e) {
-            setPositiveError(t.invalidJSON);
-        }
-    };
-
-    const handleNegativeChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        try {
-            const newTestCases = JSON.parse(event.target.value);
-            setNegativeTestCases(newTestCases);
-            setNegativeError(null);
-        } catch (e) {
-            setNegativeError(t.invalidJSON);
-        }
-    };
-
     return <>
         <div className="test-case-tabs">
             <button>JSON</button>
@@ -94,47 +110,24 @@ const TestCasesDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ 
                 Plain text
             </button>
         </div>
-        <div>
-            <h3>{t.positiveTestCases}</h3>
-            <textarea
-                rows={4}
-                cols={30}
-                defaultValue={JSON.stringify(positiveTestCases)}
-                onChange={handlePositiveChange}
-                style={{ backgroundColor: positiveError ? '#ffb4b4' : 'white' }}
-            />
+        <Validator isPositive={true} texts={
             {
-                positiveError ?
-                    <div style={{ color: 'red' }}>{positiveError}</div>
-                    : <div>{
-                        positiveResult === true ?
-                            t.allPositiveTestCasesPassed :
-                            positiveResult === false ?
-                                t.somePositiveTestCasesFailed : t.invalidInput
-                    }</div>
+                title: t.positiveTestCases,
+                allPassed: t.allPositiveTestCasesPassed,
+                someFailed: t.somePositiveTestCasesFailed,
+                invalidInputString: t.invalidInput,
+                invalidJSON: t.invalidJSON
             }
-        </div>
-        <div>
-            <h3>{t.negativeTestCases}</h3>
-            <textarea
-                rows={4}
-                cols={30}
-                defaultValue={JSON.stringify(negativeTestCases)}
-                onChange={handleNegativeChange}
-                style={{ backgroundColor: negativeError ? '#ffb4b4' : 'white' }}
-            />
+        } dfa={dfa} initialTestCases={["01", "101", "001", "111101"]} />
+        <Validator isPositive={false} texts={
             {
-                negativeError ?
-                    <div style={{ color: 'red' }}>{negativeError}</div> :
-                    <div>{
-                        negativeResult === true ?
-                            t.allNegativeTestCasesPassed :
-                            negativeResult === false ?
-                                t.someNegativeTestCasesFailed :
-                                t.invalidInput
-                    }</div>
+                title: t.negativeTestCases,
+                allPassed: t.allNegativeTestCasesPassed,
+                someFailed: t.someNegativeTestCasesFailed,
+                invalidInputString: t.invalidInput,
+                invalidJSON: t.invalidJSON
             }
-        </div>
+        } dfa={dfa} initialTestCases={["100", "0010", "1110", "01010111"]} />
     </>;
 }
 
