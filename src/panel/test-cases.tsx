@@ -63,7 +63,7 @@ const Validator: React.FC<
 > = ({ dfa, texts, initialTestCases, isPositive }) => {
     const [testCases, setTestCases] = React.useState<string[]>(initialTestCases);
     const [allPassed, setAllPassed] = React.useState<boolean | null>(true);
-    const [jsonError, setJsonError] = React.useState<string | null>(null);
+    const [isJsonError, setIsJsonError] = React.useState<boolean>(false);
 
     React.useEffect(() => {
         setAllPassed(runTestCases(dfa, testCases, isPositive));
@@ -73,9 +73,9 @@ const Validator: React.FC<
         try {
             const newTestCases = JSON.parse(event.target.value);
             setTestCases(newTestCases);
-            setJsonError(null);
+            setIsJsonError(false);
         } catch (e) {
-            setJsonError(texts.invalidJSON);
+            setIsJsonError(true);
         }
     };
 
@@ -86,11 +86,11 @@ const Validator: React.FC<
             cols={30}
             defaultValue={JSON.stringify(testCases)}
             onChange={handleTextAreaChange}
-            style={{ backgroundColor: jsonError ? '#ffb4b4' : 'white' }}
+            style={{ backgroundColor: isJsonError ? '#ffb4b4' : 'white' }}
         />
         {
-            jsonError ?
-                <div style={{ color: 'red' }}>{jsonError}</div>
+            isJsonError ?
+                <div style={{ color: 'red' }}>{texts.invalidJSON}</div>
                 : <div>{
                     allPassed === true ?
                         texts.allPassed :
