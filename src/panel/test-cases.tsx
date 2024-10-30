@@ -8,16 +8,31 @@ const translations = {
         "positiveTestCases": "Positive Test Cases",
         "negativeTestCases": "Negative Test Cases",
         "testCases": "Test Cases",
+        "invalidJSON": "Invalid JSON",
+        "allPositiveTestCasesPassed": "✅All positive test cases passed",
+        "somePositiveTestCasesFailed": "☹️Some positive test cases failed",
+        "allNegativeTestCasesPassed": "✅All negative test cases passed",
+        "someNegativeTestCasesFailed": "☹️Some negative test cases failed",
     },
     "en-UK": {
         "positiveTestCases": "Positive Test Cases",
         "negativeTestCases": "Negative Test Cases",
         "testCases": "Test Cases",
+        "invalidJSON": "Invalid JSON",
+        "allPositiveTestCasesPassed": "✅All positive test cases passed",
+        "somePositiveTestCasesFailed": "☹️Some positive test cases failed",
+        "allNegativeTestCasesPassed": "✅All negative test cases passed",
+        "someNegativeTestCasesFailed": "☹️Some negative test cases failed",
     },
     "ja": {
         "positiveTestCases": "受理すべき文字列",
         "negativeTestCases": "拒否すべき文字列",
         "testCases": "テストケース",
+        "invalidJSON": "JSONが正しくありません",
+        "allPositiveTestCasesPassed": "✅受理すべき文字列がすべて正しく受理されました",
+        "somePositiveTestCasesFailed": "☹️受理すべき文字列のうちいくつかが受理されませんでした",
+        "allNegativeTestCasesPassed": "✅拒否すべき文字列がすべて正しく拒否されました",
+        "someNegativeTestCasesFailed": "☹️拒否すべき文字列のうちいくつかが誤って受理されました",
     }
 };
 
@@ -47,7 +62,7 @@ const TestCasesDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ 
             const newTestCases = JSON.parse(event.target.value);
             setPositiveTestCases(newTestCases);
         } catch (e) {
-            console.error("Invalid JSON");
+            console.error(t.invalidJSON);
         }
     };
 
@@ -56,7 +71,7 @@ const TestCasesDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ 
             const newTestCases = JSON.parse(event.target.value);
             setNegativeTestCases(newTestCases);
         } catch (e) {
-            console.error("Invalid JSON");
+            console.error(t.invalidJSON);
         }
     };
 
@@ -70,12 +85,12 @@ const TestCasesDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ 
         <div>
             <h3>{t.positiveTestCases}</h3>
             <textarea rows={4} cols={30} defaultValue={JSON.stringify(positiveTestCases)} onChange={handlePositiveChange} />
-            <div>{positiveResult ? "✅All positive test cases passed" : "☹️Some positive test cases failed"}</div>
+            <div>{positiveResult ? t.allPositiveTestCasesPassed : t.somePositiveTestCasesFailed}</div>
         </div>
         <div>
             <h3>{t.negativeTestCases}</h3>
             <textarea rows={4} cols={30} defaultValue={JSON.stringify(negativeTestCases)} onChange={handleNegativeChange} />
-            <div>{negativeResult ? "✅All negative test cases passed" : "☹️Some negative test cases failed"}</div>
+            <div>{negativeResult ? t.allNegativeTestCasesPassed : t.someNegativeTestCasesFailed}</div>
         </div>
     </>;
 }
