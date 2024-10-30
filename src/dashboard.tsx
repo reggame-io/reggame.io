@@ -8,6 +8,7 @@ import RegularLanguagePropertiesTableDfa from './panel/regular-language-properti
 import ExportAsCodeDfa from './panel/export-as-code';
 import { Panel, UnimplementedPanel } from './panel';
 import { DFA } from './automaton/dfa';
+import TestCasesDfa from './panel/test-cases';
 
 interface DashboardDfaProps {
     dfa: DFA;
@@ -164,20 +165,7 @@ ${[
                 </Panel>
 
                 <UnimplementedPanel title={t.testCases}>
-                    <div className="test-case-tabs">
-                        <button>JSON</button>
-                        <button disabled className="tooltip tooltip-unimplemented">
-                            Plain text
-                        </button>
-                    </div>
-                    <div>
-                        <h3>{t.positiveTestCases}</h3>
-                        <textarea rows={4} cols={30} defaultValue={`["01", "101", "001", "111101"]`} />
-                    </div>
-                    <div>
-                        <h3>{t.negativeTestCases}</h3>
-                        <textarea rows={4} cols={30} defaultValue={`["100", "0010", "1110", "01010111"]`} />
-                    </div>
+                    <TestCasesDfa dfa={dfa} lang={lang} />
                 </UnimplementedPanel>
 
                 <Panel title={t.languageProperties}>
