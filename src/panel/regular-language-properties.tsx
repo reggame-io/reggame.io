@@ -1,7 +1,10 @@
-import { DFA, AutomatonState } from "../types-automaton";
+import { DFA } from "../automaton/dfa";
+import { AutomatonState } from "../automaton/state-and-alphabet";
+import { Panel } from "../panel";
 
 const translations = {
     "en-US": {
+        "panelTitle": "Properties of the Formal Language",
         "property": "Property",
         "value": "Value",
         "minimalAcceptedStringLength": "Minimal Accepted String Length",
@@ -10,6 +13,7 @@ const translations = {
         "warnEmptyLanguage": "The language is empty; it does not accept any string.",
     },
     "en-UK": {
+        "panelTitle": "Properties of the Formal Language",
         "property": "Property",
         "value": "Value",
         "minimalAcceptedStringLength": "Minimal Accepted String Length",
@@ -18,6 +22,7 @@ const translations = {
         "warnEmptyLanguage": "The language is empty; it does not accept any string.",
     },
     "ja": {
+        "panelTitle": "形式言語の性質",
         "property": "性質",
         "value": "値",
         "minimalAcceptedStringLength": "最小受理文字列長",
@@ -73,4 +78,10 @@ const RegularLanguagePropertiesTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "e
     </>
 }
 
-export default RegularLanguagePropertiesTableDfa;
+const RegularLanguagePropertiesPanelDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ dfa, lang }) => {
+    return <Panel title={translations[lang].panelTitle}>
+        <RegularLanguagePropertiesTableDfa dfa={dfa} lang={lang} />
+    </Panel>
+}
+
+export default RegularLanguagePropertiesPanelDfa;

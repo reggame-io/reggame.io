@@ -1,5 +1,6 @@
-import { DFA } from "../types-automaton";
-import { AutomatonState } from "../types-automaton";
+import { DFA } from "../automaton/dfa";
+import { AutomatonState } from "../automaton/state-and-alphabet";
+import { Panel } from "../panel";
 
 function countAcceptedWithinFixedLength(dfa: DFA, length: number): number {
     const map: Map<AutomatonState, number> = new Map();
@@ -28,27 +29,31 @@ function countAcceptedWithinFixedLength(dfa: DFA, length: number): number {
     return accepted;
 }
 
-const AcceptancePrecentageTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ dfa, lang }) => {
-    const translations = {
-        "en-US": {
-            "length": "Length",
-            "accepted": "Accepted",
-            "rejected": "Rejected",
-            "acceptanceRate": "Acceptance Rate",
-        },
-        "en-UK": {
-            "length": "Length",
-            "accepted": "Accepted",
-            "rejected": "Rejected",
-            "acceptanceRate": "Acceptance Rate",
-        },
-        "ja": {
-            "length": "文字列長",
-            "accepted": "受理する文字列の個数",
-            "rejected": "拒否する文字列の個数",
-            "acceptanceRate": "受理率",
-        }
-    };
+const translations = {
+    "en-US": {
+        "acceptanceRateByStringLength": "Acceptance Rate by String Length",
+        "length": "Length",
+        "accepted": "Accepted",
+        "rejected": "Rejected",
+        "acceptanceRate": "Acceptance Rate",
+    },
+    "en-UK": {
+        "acceptanceRateByStringLength": "Acceptance Rate by String Length",
+        "length": "Length",
+        "accepted": "Accepted",
+        "rejected": "Rejected",
+        "acceptanceRate": "Acceptance Rate",
+    },
+    "ja": {
+        "acceptanceRateByStringLength": "文字列長ごとの受理率",
+        "length": "文字列長",
+        "accepted": "受理する文字列の個数",
+        "rejected": "拒否する文字列の個数",
+        "acceptanceRate": "受理率",
+    }
+};
+
+const AcceptancePercentageTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ dfa, lang }) => {
     const t = translations[lang];
     return <table className="acceptance-percentage-table">
         <thead>
@@ -68,4 +73,11 @@ const AcceptancePrecentageTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK"
     </table>
 }
 
-export default AcceptancePrecentageTableDfa;
+const AcceptancePrecentagePanelDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ dfa, lang }) => {
+    const t = translations[lang];
+    return <Panel title={t.acceptanceRateByStringLength}>
+        <AcceptancePercentageTableDfa dfa={dfa} lang={lang} />
+    </Panel>
+}
+
+export default AcceptancePrecentagePanelDfa;

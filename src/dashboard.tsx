@@ -1,13 +1,15 @@
 import React from 'react';
 import reggameLogo from './assets/reggame-io-logo.png'
-import { Graphviz } from 'graphviz-react';
 import './dashboard.css';
-import { DFA } from './types-automaton';
-import TransitionTableDfa from './panel/transition-table';
-import AcceptancePercentageTableDfa from './panel/acceptance-percentage-table';
-import RegularLanguagePropertiesTableDfa from './panel/regular-language-properties';
-import ExportAsCodeDfa from './panel/export-as-code';
-import { Panel, UnimplementedPanel } from './panel';
+import TransitionTablePanelDfa from './panel/transition-table';
+import AcceptancePercentagePanelDfa from './panel/acceptance-percentage-table';
+import RegularLanguagePropertiesPanelDfa from './panel/regular-language-properties';
+import ExportAsCodePanelDfa from './panel/export-as-code';
+import { DFA } from './automaton/dfa';
+import TestCasesPanelDfa from './panel/test-cases';
+import ExportVisualRepresentationPanelDfa from './panel/export-visual-representation';
+import AutomatonPropertiesPanelDfa from './panel/automaton-properties';
+import GraphicalRepresentationPanelDfa from './panel/graphical-representation';
 
 interface DashboardDfaProps {
     dfa: DFA;
@@ -18,56 +20,17 @@ const translations = {
     "en-US": {
         "graphicalRepresentation": "Graphical Representation",
         "viewSource": "View Source",
-        "transitionTable": "Transition Table",
-        "automatonProperties": "Automaton Properties",
-        "type": "Type",
-        "numberOfStates": "Number of states",
-        "alphabetSet": "Alphabet set",
         "testCases": "Test Cases",
-        "positiveTestCases": "Positive Test Cases",
-        "negativeTestCases": "Negative Test Cases",
-        "languageProperties": "Properties of the Formal Language",
-        "property": "Property",
-        "value": "Value",
-        "acceptanceRateByStringLength": "Acceptance Rate by String Length",
-        "export": "Export the Automaton as Code",
-        "exportVisual": "Export Visual Representation"
     },
     "en-UK": {
         "graphicalRepresentation": "Graphical Representation",
         "viewSource": "View Source",
-        "transitionTable": "Transition Table",
-        "automatonProperties": "Automaton Properties",
-        "type": "Type",
-        "numberOfStates": "Number of states",
-        "alphabetSet": "Alphabet set",
         "testCases": "Test Cases",
-        "positiveTestCases": "Positive Test Cases",
-        "negativeTestCases": "Negative Test Cases",
-        "languageProperties": "Properties of the Formal Language",
-        "property": "Property",
-        "value": "Value",
-        "acceptanceRateByStringLength": "Acceptance Rate by String Length",
-        "export": "Export the Automaton as Code",
-        "exportVisual": "Export Visual Representation"
     },
     "ja": {
         "graphicalRepresentation": "図示",
         "viewSource": "ソースを表示",
-        "transitionTable": "遷移表",
-        "automatonProperties": "オートマトンの性質",
-        "type": "種別",
-        "numberOfStates": "状態の数",
-        "alphabetSet": "文字集合",
         "testCases": "テストケース",
-        "positiveTestCases": "受理すべき文字列",
-        "negativeTestCases": "拒否すべき文字列",
-        "languageProperties": "形式言語の性質",
-        "property": "性質",
-        "value": "値",
-        "acceptanceRateByStringLength": "文字列長ごとの受理率",
-        "export": "オートマトンをコードとしてエクスポート",
-        "exportVisual": "図示をエクスポート"
     }
 };
 
@@ -88,25 +51,6 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa, lang }) => {
         throw new Error("Changing the language");
     };
 
-    const t = translations[lang];
-
-    const graphvizSource = `digraph finite_state_machine {
-    node [shape = doublecircle]; ${dfa.accept_states.length ?
-            dfa.accept_states.join(", ") + ";" : ""}
-    node [shape = circle];
-    "" [shape=none];
-${[
-            ...dfa.transition_table.entries()
-
-        ].map(([state, inner_map]) => {
-            return Array.from(inner_map.entries()).map(([c, dest]) => {
-                return `    ${state} -> ${dest} [label = "${c}"];`
-            }).join("\n")
-        }).join("\n")
-        }
-    "" -> a
-}`;
-
     return (
         <div>
             <header>
@@ -121,90 +65,14 @@ ${[
             </header>
 
             <main>
-                <Panel title={t.graphicalRepresentation}>
-                    <Graphviz dot={graphvizSource} options={
-                        { height: 300 }
-                    } />
-                    <details>
-                        <summary>{t.viewSource}</summary>
-                        <textarea readOnly={true} rows={10} cols={50} defaultValue={graphvizSource} />
-                    </details>
-                </Panel>
-
-                <Panel title={t.transitionTable}>
-                    <TransitionTableDfa dfa={dfa} lang={lang} />
-                </Panel>
-
-                <Panel title={t.automatonProperties}>
-                    <table className="properties-table">
-                        <thead>
-                            <tr><th>{t.property}</th><th>{t.value}</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>{t.type}</td><td>
-                                DFA (
-                                <a href="https://en.wikipedia.org/w/index.php?title=Deterministic_finite_automaton&oldid=1234881968#Complete_and_incomplete">
-                                    complete
-                                </a>
-                                )
-                            </td></tr>
-                            <tr><td>{t.numberOfStates}</td><td>{dfa.states.length} </td></tr>
-                            <tr><td>{t.alphabetSet}</td><td>
-                                {'{'}
-                                {
-                                    dfa.alphabets
-                                        .map(alphabet => <code className='alphabet' key={alphabet}>{alphabet}</code>)
-                                        .reduce((prev, curr) => <>
-                                            {prev}<span>{', '}</span>{curr}
-                                        </>)
-                                }
-                                {'}'}</td></tr>
-                        </tbody>
-                    </table>
-                </Panel>
-
-                <UnimplementedPanel title={t.testCases}>
-                    <div className="test-case-tabs">
-                        <button>JSON</button>
-                        <button disabled className="tooltip tooltip-unimplemented">
-                            Plain text
-                        </button>
-                    </div>
-                    <div>
-                        <h3>{t.positiveTestCases}</h3>
-                        <textarea rows={4} cols={30} defaultValue={`["01", "101", "001", "111101"]`} />
-                    </div>
-                    <div>
-                        <h3>{t.negativeTestCases}</h3>
-                        <textarea rows={4} cols={30} defaultValue={`["100", "0010", "1110", "01010111"]`} />
-                    </div>
-                </UnimplementedPanel>
-
-                <Panel title={t.languageProperties}>
-                    <RegularLanguagePropertiesTableDfa dfa={dfa} lang={lang} />
-                </Panel>
-
-                <Panel title={t.acceptanceRateByStringLength}>
-                    <AcceptancePercentageTableDfa dfa={dfa} lang={lang} />
-                </Panel>
-
-                <Panel title={t.export}>
-                    <ExportAsCodeDfa dfa={dfa} lang={lang} />
-                </Panel>
-
-                <Panel title={t.exportVisual}>
-                    <div className="export-tabs">
-                        <button>Graphviz</button>
-                        <button disabled className="tooltip tooltip-unimplemented">
-                            TikZ
-                        </button>
-                    </div>
-                    <div className="export-tab-content">
-                        <pre>
-                            {graphvizSource}
-                        </pre>
-                    </div>
-                </Panel>
+                <GraphicalRepresentationPanelDfa dfa={dfa} lang={lang} />
+                <TransitionTablePanelDfa dfa={dfa} lang={lang} />
+                <AutomatonPropertiesPanelDfa dfa={dfa} lang={lang} />
+                <TestCasesPanelDfa dfa={dfa} lang={lang} />
+                <RegularLanguagePropertiesPanelDfa dfa={dfa} lang={lang} />
+                <AcceptancePercentagePanelDfa dfa={dfa} lang={lang} />
+                <ExportAsCodePanelDfa dfa={dfa} lang={lang} />
+                <ExportVisualRepresentationPanelDfa dfa={dfa} lang={lang} />
             </main>
         </div>
     );
