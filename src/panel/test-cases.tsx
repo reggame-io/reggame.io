@@ -103,13 +103,16 @@ const TestCasesDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ 
                 onChange={handlePositiveChange}
                 style={{ backgroundColor: positiveError ? '#ffb4b4' : 'white' }}
             />
-            {positiveError && <div style={{ color: 'red' }}>{positiveError}</div>}
-            <div>{
-                positiveResult === true ?
-                    t.allPositiveTestCasesPassed :
-                    positiveResult === false ?
-                        t.somePositiveTestCasesFailed : t.invalidInput
-            }</div>
+            {
+                positiveError ?
+                    <div style={{ color: 'red' }}>{positiveError}</div>
+                    : <div>{
+                        positiveResult === true ?
+                            t.allPositiveTestCasesPassed :
+                            positiveResult === false ?
+                                t.somePositiveTestCasesFailed : t.invalidInput
+                    }</div>
+            }
         </div>
         <div>
             <h3>{t.negativeTestCases}</h3>
@@ -120,14 +123,17 @@ const TestCasesDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ 
                 onChange={handleNegativeChange}
                 style={{ backgroundColor: negativeError ? '#ffb4b4' : 'white' }}
             />
-            {negativeError && <div style={{ color: 'red' }}>{negativeError}</div>}
-            <div>{
-                negativeResult === true ?
-                    t.allNegativeTestCasesPassed :
-                    negativeResult === false ?
-                        t.someNegativeTestCasesFailed :
-                        t.invalidInput
-            }</div>
+            {
+                negativeError ?
+                    <div style={{ color: 'red' }}>{negativeError}</div> :
+                    <div>{
+                        negativeResult === true ?
+                            t.allNegativeTestCasesPassed :
+                            negativeResult === false ?
+                                t.someNegativeTestCasesFailed :
+                                t.invalidInput
+                    }</div>
+            }
         </div>
     </>;
 }
