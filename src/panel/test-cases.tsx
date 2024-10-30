@@ -1,6 +1,7 @@
 import './transition-table.css';
 import { DFA, runAutomaton } from '../automaton/dfa';
-import { UnimplementedPanel } from '../panel';
+import { Panel } from '../panel';
+import React from 'react';
 
 const translations = {
     "en-US": {
@@ -28,11 +29,36 @@ const TestCasesDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ 
 
     const t = translations[lang];
 
-    const positiveTestCases = JSON.parse('["01", "101", "001", "111101"]');
-    const negativeTestCases = JSON.parse('["100", "0010", "1110", "01010111"]');
+    const [positiveTestCases, setPositiveTestCases] = React.useState<string[]>(["01", "101", "001", "111101"]);
+    const [negativeTestCases, setNegativeTestCases] = React.useState<string[]>(["100", "0010", "1110", "01010111"]);
+    const [positiveResult, setPositiveResult] = React.useState<boolean>(true);
+    const [negativeResult, setNegativeResult] = React.useState<boolean>(true);
 
-    const positiveResult = runTestCases(dfa, positiveTestCases, true);
-    const negativeResult = runTestCases(dfa, negativeTestCases, false);
+    React.useEffect(() => {
+        setPositiveResult(runTestCases(dfa, positiveTestCases, true));
+    }, [positiveTestCases, dfa]);
+
+    React.useEffect(() => {
+        setNegativeResult(runTestCases(dfa, negativeTestCases, false));
+    }, [negativeTestCases, dfa]);
+
+    const handlePositiveChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        try {
+            const newTestCases = JSON.parse(event.target.value);
+            setPositiveTestCases(newTestCases);
+        } catch (e) {
+            console.error("Invalid JSON");
+        }
+    };
+
+    const handleNegativeChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        try {
+            const newTestCases = JSON.parse(event.target.value);
+            setNegativeTestCases(newTestCases);
+        } catch (e) {
+            console.error("Invalid JSON");
+        }
+    };
 
     return <>
         <div className="test-case-tabs">
@@ -43,21 +69,21 @@ const TestCasesDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ 
         </div>
         <div>
             <h3>{t.positiveTestCases}</h3>
-            <textarea rows={4} cols={30} defaultValue={JSON.stringify(positiveTestCases)} />
-            <div>{positiveResult ? "All positive test cases passed" : "Some positive test cases failed"}</div>
+            <textarea rows={4} cols={30} defaultValue={JSON.stringify(positiveTestCases)} onChange={handlePositiveChange} />
+            <div>{positiveResult ? "✅All positive test cases passed" : "☹️Some positive test cases failed"}</div>
         </div>
         <div>
             <h3>{t.negativeTestCases}</h3>
-            <textarea rows={4} cols={30} defaultValue={JSON.stringify(negativeTestCases)} />
-            <div>{negativeResult ? "All negative test cases passed" : "Some negative test cases failed"}</div>
+            <textarea rows={4} cols={30} defaultValue={JSON.stringify(negativeTestCases)} onChange={handleNegativeChange} />
+            <div>{negativeResult ? "✅All negative test cases passed" : "☹️Some negative test cases failed"}</div>
         </div>
     </>;
 }
 
 const TestCasesPanelDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ dfa, lang }) => {
     const t = translations[lang];
-    return <UnimplementedPanel title={t.testCases}>
+    return <Panel title={t.testCases}>
         <TestCasesDfa dfa={dfa} lang={lang} />
-    </UnimplementedPanel>
+    </Panel>
 }
 export default TestCasesPanelDfa;
