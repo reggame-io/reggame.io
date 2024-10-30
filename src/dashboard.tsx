@@ -51,8 +51,6 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa, lang }) => {
         throw new Error("Changing the language");
     };
 
-    const t = translations[lang];
-
     return (
         <div>
             <header>
