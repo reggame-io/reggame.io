@@ -3,12 +3,13 @@ import reggameLogo from './assets/reggame-io-logo.png'
 import { Graphviz } from 'graphviz-react';
 import './dashboard.css';
 import TransitionTableDfa from './panel/transition-table';
-import AcceptancePercentageTableDfa from './panel/acceptance-percentage-table';
-import RegularLanguagePropertiesTableDfa from './panel/regular-language-properties';
-import ExportAsCodeDfa from './panel/export-as-code';
+import AcceptancePercentagePanelDfa from './panel/acceptance-percentage-table';
+import RegularLanguagePropertiesPanelDfa from './panel/regular-language-properties';
+import ExportAsCodePanelDfa from './panel/export-as-code';
 import { Panel, UnimplementedPanel } from './panel';
-import { DFA } from './automaton/dfa';
+import { DFA, getGraphvizSource } from './automaton/dfa';
 import TestCasesDfa from './panel/test-cases';
+import ExportVisualRepresentationPanelDfa from './panel/export-visual-representation';
 
 interface DashboardDfaProps {
     dfa: DFA;
@@ -27,12 +28,8 @@ const translations = {
         "testCases": "Test Cases",
         "positiveTestCases": "Positive Test Cases",
         "negativeTestCases": "Negative Test Cases",
-        "languageProperties": "Properties of the Formal Language",
         "property": "Property",
         "value": "Value",
-        "acceptanceRateByStringLength": "Acceptance Rate by String Length",
-        "export": "Export the Automaton as Code",
-        "exportVisual": "Export Visual Representation"
     },
     "en-UK": {
         "graphicalRepresentation": "Graphical Representation",
@@ -45,12 +42,8 @@ const translations = {
         "testCases": "Test Cases",
         "positiveTestCases": "Positive Test Cases",
         "negativeTestCases": "Negative Test Cases",
-        "languageProperties": "Properties of the Formal Language",
         "property": "Property",
         "value": "Value",
-        "acceptanceRateByStringLength": "Acceptance Rate by String Length",
-        "export": "Export the Automaton as Code",
-        "exportVisual": "Export Visual Representation"
     },
     "ja": {
         "graphicalRepresentation": "図示",
@@ -63,12 +56,8 @@ const translations = {
         "testCases": "テストケース",
         "positiveTestCases": "受理すべき文字列",
         "negativeTestCases": "拒否すべき文字列",
-        "languageProperties": "形式言語の性質",
         "property": "性質",
         "value": "値",
-        "acceptanceRateByStringLength": "文字列長ごとの受理率",
-        "export": "オートマトンをコードとしてエクスポート",
-        "exportVisual": "図示をエクスポート"
     }
 };
 
@@ -91,22 +80,7 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa, lang }) => {
 
     const t = translations[lang];
 
-    const graphvizSource = `digraph finite_state_machine {
-    node [shape = doublecircle]; ${dfa.accept_states.length ?
-            dfa.accept_states.join(", ") + ";" : ""}
-    node [shape = circle];
-    "" [shape=none];
-${[
-            ...dfa.transition_table.entries()
-
-        ].map(([state, inner_map]) => {
-            return Array.from(inner_map.entries()).map(([c, dest]) => {
-                return `    ${state} -> ${dest} [label = "${c}"];`
-            }).join("\n")
-        }).join("\n")
-        }
-    "" -> a
-}`;
+    const graphvizSource = getGraphvizSource(dfa);
 
     return (
         <div>
@@ -168,31 +142,10 @@ ${[
                     <TestCasesDfa dfa={dfa} lang={lang} />
                 </UnimplementedPanel>
 
-                <Panel title={t.languageProperties}>
-                    <RegularLanguagePropertiesTableDfa dfa={dfa} lang={lang} />
-                </Panel>
-
-                <Panel title={t.acceptanceRateByStringLength}>
-                    <AcceptancePercentageTableDfa dfa={dfa} lang={lang} />
-                </Panel>
-
-                <Panel title={t.export}>
-                    <ExportAsCodeDfa dfa={dfa} lang={lang} />
-                </Panel>
-
-                <Panel title={t.exportVisual}>
-                    <div className="export-tabs">
-                        <button>Graphviz</button>
-                        <button disabled className="tooltip tooltip-unimplemented">
-                            TikZ
-                        </button>
-                    </div>
-                    <div className="export-tab-content">
-                        <pre>
-                            {graphvizSource}
-                        </pre>
-                    </div>
-                </Panel>
+                <RegularLanguagePropertiesPanelDfa dfa={dfa} lang={lang} />
+                <AcceptancePercentagePanelDfa dfa={dfa} lang={lang} />
+                <ExportAsCodePanelDfa dfa={dfa} lang={lang} />
+                <ExportVisualRepresentationPanelDfa dfa={dfa} lang={lang} />
             </main>
         </div>
     );

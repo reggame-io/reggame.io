@@ -24,3 +24,22 @@ export function runAutomaton(dfa: DFA, input_str: string): boolean {
     }
     return dfa.accept_states.includes(state);
 }
+
+export function getGraphvizSource(dfa: DFA): string {
+    return `digraph finite_state_machine {
+    node [shape = doublecircle]; ${dfa.accept_states.length ?
+            dfa.accept_states.join(", ") + ";" : ""}
+    node [shape = circle];
+    "" [shape=none];
+${[
+            ...dfa.transition_table.entries()
+
+        ].map(([state, inner_map]) => {
+            return Array.from(inner_map.entries()).map(([c, dest]) => {
+                return `    ${state} -> ${dest} [label = "${c}"];`
+            }).join("\n")
+        }).join("\n")
+        }
+    "" -> a
+}`;
+}

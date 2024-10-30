@@ -3,6 +3,19 @@ import { SupportedNaturalLanguage } from "../dashboard";
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import "../panel/export-as-code.css";
 import { DFA } from "../automaton/dfa";
+import { Panel } from "../panel";
+
+const translations = {
+    "en-US": {
+        "export": "Export the Automaton as Code",
+    },
+    "en-UK": {
+        "export": "Export the Automaton as Code",
+    },
+    "ja": {
+        "export": "オートマトンをコードとしてエクスポート",
+    }
+};
 
 const ExportAsCodeDfa: React.FC<{ dfa: DFA, lang: SupportedNaturalLanguage }> = ({ dfa }) => {
     const [programmingLanguage, setProgrammingLanguage] = React.useState('Python');
@@ -50,6 +63,13 @@ const ExportAsCodeDfa: React.FC<{ dfa: DFA, lang: SupportedNaturalLanguage }> = 
             </SyntaxHighlighter>
         </div>
     </>;
+}
+
+const ExportAsCodePanelDfa: React.FC<{ dfa: DFA, lang: SupportedNaturalLanguage }> = ({ dfa, lang }) => {
+    const t = translations[lang];
+    return <Panel title={t.export}>
+        <ExportAsCodeDfa dfa={dfa} lang={lang} />
+    </Panel>
 }
 
 function genPython(dfa: DFA): string {
@@ -106,4 +126,4 @@ function genTypeScript(dfa: DFA): string {
     return code;
 }
 
-export default ExportAsCodeDfa;
+export default ExportAsCodePanelDfa;
