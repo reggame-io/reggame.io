@@ -10,6 +10,7 @@ import { Panel, UnimplementedPanel } from './panel';
 import { DFA, getGraphvizSource } from './automaton/dfa';
 import TestCasesDfa from './panel/test-cases';
 import ExportVisualRepresentationPanelDfa from './panel/export-visual-representation';
+import AutomatonPropertiesPanelDfa from './panel/automaton-properties';
 
 interface DashboardDfaProps {
     dfa: DFA;
@@ -104,34 +105,7 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa, lang }) => {
                 </Panel>
 
                 <TransitionTablePanelDfa dfa={dfa} lang={lang} />
-                
-                <Panel title={t.automatonProperties}>
-                    <table className="properties-table">
-                        <thead>
-                            <tr><th>{t.property}</th><th>{t.value}</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>{t.type}</td><td>
-                                DFA (
-                                <a href="https://en.wikipedia.org/w/index.php?title=Deterministic_finite_automaton&oldid=1234881968#Complete_and_incomplete">
-                                    complete
-                                </a>
-                                )
-                            </td></tr>
-                            <tr><td>{t.numberOfStates}</td><td>{dfa.states.length} </td></tr>
-                            <tr><td>{t.alphabetSet}</td><td>
-                                {'{'}
-                                {
-                                    dfa.alphabets
-                                        .map(alphabet => <code className='alphabet' key={alphabet}>{alphabet}</code>)
-                                        .reduce((prev, curr) => <>
-                                            {prev}<span>{', '}</span>{curr}
-                                        </>)
-                                }
-                                {'}'}</td></tr>
-                        </tbody>
-                    </table>
-                </Panel>
+                <AutomatonPropertiesPanelDfa dfa={dfa} lang={lang} />
 
                 <UnimplementedPanel title={t.testCases}>
                     <TestCasesDfa dfa={dfa} lang={lang} />
