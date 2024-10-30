@@ -1,5 +1,6 @@
 import './transition-table.css';
-import { DFA, AutomatonState } from '../types-automaton';
+import { AutomatonState } from '../automaton/state-and-alphabet';
+import { DFA } from '../automaton/dfa';
 
 const TransitionTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ dfa, lang }) => {
     const translations = {

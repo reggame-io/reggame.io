@@ -1,4 +1,5 @@
-import { DFA, AutomatonState } from "../types-automaton";
+import { DFA } from "../automaton/dfa";
+import { AutomatonState } from "../automaton/state-and-alphabet";
 
 const translations = {
     "en-US": {
