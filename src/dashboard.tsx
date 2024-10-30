@@ -2,7 +2,7 @@ import React from 'react';
 import reggameLogo from './assets/reggame-io-logo.png'
 import { Graphviz } from 'graphviz-react';
 import './dashboard.css';
-import TransitionTableDfa from './panel/transition-table';
+import TransitionTablePanelDfa from './panel/transition-table';
 import AcceptancePercentagePanelDfa from './panel/acceptance-percentage-table';
 import RegularLanguagePropertiesPanelDfa from './panel/regular-language-properties';
 import ExportAsCodePanelDfa from './panel/export-as-code';
@@ -20,7 +20,6 @@ const translations = {
     "en-US": {
         "graphicalRepresentation": "Graphical Representation",
         "viewSource": "View Source",
-        "transitionTable": "Transition Table",
         "automatonProperties": "Automaton Properties",
         "type": "Type",
         "numberOfStates": "Number of states",
@@ -34,7 +33,6 @@ const translations = {
     "en-UK": {
         "graphicalRepresentation": "Graphical Representation",
         "viewSource": "View Source",
-        "transitionTable": "Transition Table",
         "automatonProperties": "Automaton Properties",
         "type": "Type",
         "numberOfStates": "Number of states",
@@ -48,7 +46,6 @@ const translations = {
     "ja": {
         "graphicalRepresentation": "図示",
         "viewSource": "ソースを表示",
-        "transitionTable": "遷移表",
         "automatonProperties": "オートマトンの性質",
         "type": "種別",
         "numberOfStates": "状態の数",
@@ -106,10 +103,8 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa, lang }) => {
                     </details>
                 </Panel>
 
-                <Panel title={t.transitionTable}>
-                    <TransitionTableDfa dfa={dfa} lang={lang} />
-                </Panel>
-
+                <TransitionTablePanelDfa dfa={dfa} lang={lang} />
+                
                 <Panel title={t.automatonProperties}>
                     <table className="properties-table">
                         <thead>

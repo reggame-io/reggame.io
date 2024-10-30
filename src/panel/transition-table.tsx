@@ -1,26 +1,30 @@
 import './transition-table.css';
 import { AutomatonState } from '../automaton/state-and-alphabet';
 import { DFA } from '../automaton/dfa';
+import { Panel } from '../panel';
+
+const translations = {
+    "en-US": {
+        state: "State",
+        alphabet: "Alphabet",
+        acceptState: "Accept State",
+        "transitionTable": "Transition Table",
+    },
+    "en-UK": {
+        state: "State",
+        alphabet: "Alphabet",
+        acceptState: "Accept State",
+        "transitionTable": "Transition Table",
+    },
+    "ja": {
+        state: "状態",
+        alphabet: "文字",
+        acceptState: "受理状態",
+        "transitionTable": "遷移表",
+    }
+};
 
 const TransitionTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ dfa, lang }) => {
-    const translations = {
-        "en-US": {
-            state: "State",
-            alphabet: "Alphabet",
-            acceptState: "Accept State"
-        },
-        "en-UK": {
-            state: "State",
-            alphabet: "Alphabet",
-            acceptState: "Accept State"
-        },
-        "ja": {
-            state: "状態",
-            alphabet: "文字",
-            acceptState: "受理状態"
-        }
-    }
-
     function renderAutomatonState(state: AutomatonState) {
         return <span className={dfa.accept_states.includes(state) ? 'acceptState' : 'state'}>{state}</span>;
     }
@@ -53,4 +57,11 @@ const TransitionTableDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }>
     </table>
 }
 
-export default TransitionTableDfa;
+const TransitionTablePanelDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ dfa, lang }) => {
+    const t = translations[lang];
+    return <Panel title={t.transitionTable}>
+        <TransitionTableDfa dfa={dfa} lang={lang} />
+    </Panel>
+};
+
+export default TransitionTablePanelDfa;
