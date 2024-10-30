@@ -1,16 +1,15 @@
 import React from 'react';
 import reggameLogo from './assets/reggame-io-logo.png'
-import { Graphviz } from 'graphviz-react';
 import './dashboard.css';
 import TransitionTablePanelDfa from './panel/transition-table';
 import AcceptancePercentagePanelDfa from './panel/acceptance-percentage-table';
 import RegularLanguagePropertiesPanelDfa from './panel/regular-language-properties';
 import ExportAsCodePanelDfa from './panel/export-as-code';
-import { Panel, UnimplementedPanel } from './panel';
-import { DFA, getGraphvizSource } from './automaton/dfa';
-import TestCasesDfa from './panel/test-cases';
+import { DFA } from './automaton/dfa';
+import TestCasesPanelDfa from './panel/test-cases';
 import ExportVisualRepresentationPanelDfa from './panel/export-visual-representation';
 import AutomatonPropertiesPanelDfa from './panel/automaton-properties';
+import GraphicalRepresentationPanelDfa from './panel/graphical-representation';
 
 interface DashboardDfaProps {
     dfa: DFA;
@@ -54,8 +53,6 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa, lang }) => {
 
     const t = translations[lang];
 
-    const graphvizSource = getGraphvizSource(dfa);
-
     return (
         <div>
             <header>
@@ -70,23 +67,10 @@ const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa, lang }) => {
             </header>
 
             <main>
-                <Panel title={t.graphicalRepresentation}>
-                    <Graphviz dot={graphvizSource} options={
-                        { height: 300 }
-                    } />
-                    <details>
-                        <summary>{t.viewSource}</summary>
-                        <textarea readOnly={true} rows={10} cols={50} defaultValue={graphvizSource} />
-                    </details>
-                </Panel>
-
+                <GraphicalRepresentationPanelDfa dfa={dfa} lang={lang} />
                 <TransitionTablePanelDfa dfa={dfa} lang={lang} />
                 <AutomatonPropertiesPanelDfa dfa={dfa} lang={lang} />
-
-                <UnimplementedPanel title={t.testCases}>
-                    <TestCasesDfa dfa={dfa} lang={lang} />
-                </UnimplementedPanel>
-
+                <TestCasesPanelDfa dfa={dfa} lang={lang} />
                 <RegularLanguagePropertiesPanelDfa dfa={dfa} lang={lang} />
                 <AcceptancePercentagePanelDfa dfa={dfa} lang={lang} />
                 <ExportAsCodePanelDfa dfa={dfa} lang={lang} />

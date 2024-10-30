@@ -1,21 +1,26 @@
 import './transition-table.css';
 import { DFA } from '../automaton/dfa';
+import { UnimplementedPanel } from '../panel';
+
+const translations = {
+    "en-US": {
+        "positiveTestCases": "Positive Test Cases",
+        "negativeTestCases": "Negative Test Cases",
+        "testCases": "Test Cases",
+    },
+    "en-UK": {
+        "positiveTestCases": "Positive Test Cases",
+        "negativeTestCases": "Negative Test Cases",
+        "testCases": "Test Cases",
+    },
+    "ja": {
+        "positiveTestCases": "受理すべき文字列",
+        "negativeTestCases": "拒否すべき文字列",
+        "testCases": "テストケース",
+    }
+};
 
 const TestCasesDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ dfa, lang }) => {
-    const translations = {
-        "en-US": {
-            "positiveTestCases": "Positive Test Cases",
-            "negativeTestCases": "Negative Test Cases",
-        },
-        "en-UK": {
-            "positiveTestCases": "Positive Test Cases",
-            "negativeTestCases": "Negative Test Cases",
-        },
-        "ja": {
-            "positiveTestCases": "受理すべき文字列",
-            "negativeTestCases": "拒否すべき文字列",
-        }
-    };
 
     const t = translations[lang];
 
@@ -37,4 +42,10 @@ const TestCasesDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ 
     </>;
 }
 
-export default TestCasesDfa;
+const TestCasesPanelDfa: React.FC<{ dfa: DFA, lang: "en-US" | "en-UK" | "ja" }> = ({ dfa, lang }) => {
+    const t = translations[lang];
+    return <UnimplementedPanel title={t.testCases}>
+        <TestCasesDfa dfa={dfa} lang={lang} />
+    </UnimplementedPanel>
+}
+export default TestCasesPanelDfa;
