@@ -16,28 +16,12 @@ interface DashboardDfaProps {
     lang: SupportedNaturalLanguage;
 }
 
-const translations = {
-    "en-US": {
-        "graphicalRepresentation": "Graphical Representation",
-        "viewSource": "View Source",
-        "testCases": "Test Cases",
-    },
-    "en-UK": {
-        "graphicalRepresentation": "Graphical Representation",
-        "viewSource": "View Source",
-        "testCases": "Test Cases",
-    },
-    "ja": {
-        "graphicalRepresentation": "図示",
-        "viewSource": "ソースを表示",
-        "testCases": "テストケース",
-    }
-};
+const SUPPORTED_NATURAL_LANGUAGES = ["en-US", "en-UK", "ja"] as const;
 
-export type SupportedNaturalLanguage = keyof typeof translations;
+export type SupportedNaturalLanguage = typeof SUPPORTED_NATURAL_LANGUAGES[number];
 
 export function isSupportedNaturalLanguage(lang: string): lang is SupportedNaturalLanguage {
-    return lang in translations;
+    return SUPPORTED_NATURAL_LANGUAGES.includes(lang as SupportedNaturalLanguage);
 }
 
 const DashboardDfa: React.FC<DashboardDfaProps> = ({ dfa, lang }) => {
